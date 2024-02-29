@@ -8,7 +8,7 @@ var input = document.getElementById('input');
 var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-talk-2.png"];
 var OrionImageIndex = 0;
 
-function sendMessage() {
+window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
         if(message !== '') {
