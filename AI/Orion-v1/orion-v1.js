@@ -24,7 +24,7 @@ function sendMessage() {
 
             setTimeout(() => {
                 updateChatbox(response, 'bot');
-                drawBotImage();
+                //drawBotImage();
             }, 1000);
         }
     } catch (error) {
