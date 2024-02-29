@@ -24,12 +24,12 @@
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 
-<input id="input" type="text" onkeydown="if(event.key==='Enter'){ sendMessage()}">
+<input id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.key==='Enter'){ sendMessage()}">
 <button onclick="sendMessage()">Send</button>
 
 <div id="chatbox"></div>
 
-<script src="https://breakout-x.github.io/character-ai-test/AI/Orion-v1/orion-v1.js" onerror="alert("an unknown error occured")"></script>
+<script type="module" src="https://breakout-x.github.io/character-ai-test/AI/Orion-v1/orion-v1.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
 <!--the script only works if linked with the full url -->
 
 </body>
