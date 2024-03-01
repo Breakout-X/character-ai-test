@@ -133,7 +133,7 @@
                 canvas.width = 400;  // Set canvas width
                 canvas.height = 400; // Set canvas height
                 let ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
+                ctx.drawImage(img, 0, 0, img.width * 2, img.height * 2);
                 document.body.appendChild(canvas);
             };
             img.src = src;
