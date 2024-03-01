@@ -47,12 +47,12 @@
                 let secondColor = parts[andIndex + 2];
                 let secondAnimal = parts[andIndex + 3];
                 let secondAction = parts[andIndex + 4] + "-" + parts[andIndex + 5];
-                secondAnimal = secondGender + "-" + secondAnimal + "-" + secondAction + ".png";
+                secondAnimal = "https://breakout-x.github.io/character-ai-test/img/" + secondGender + "-" + secondAnimal + "-" + secondAction + ".png";
             }
 
             // Create the image names
-            let background = setting + ".png";
-            let animalImage = gender + "-" + animal + "-" + action + ".png";
+            let background = "https://breakout-x.github.io/character-ai-test/img/" + setting + ".png";
+            let animalImage = "https://breakout-x.github.io/character-ai-test/img/" + gender + "-" + animal + "-" + action + ".png";
 
             // Load the images
             loadImage(background, function(bgImage) {
