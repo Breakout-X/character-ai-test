@@ -22,7 +22,7 @@
             let command = document.getElementById('command').value;
 
             // Check for inappropriate words
-            for (let word of inappropriateWords) {
+            for (let word of window.inappropriateWords) {
                 if (command.includes(word)) {
                     displayImage("https://breakout-x.github.io/character-ai-test/img/ELedlow-the-male-fox-blocked-content-screen.png");
                     return;
