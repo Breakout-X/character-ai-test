@@ -1,3 +1,4 @@
+
 // Function to generate the image based on the command
 function generateImage() {
   // Get the command from the input field
