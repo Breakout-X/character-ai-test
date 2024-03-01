@@ -59,8 +59,8 @@
                 loadImage(animalImage, function(animalImg) {
                     // Create a canvas and get the context
                     let canvas = document.createElement('canvas');
-                    canvas.width = 200;  // Set canvas width
-                    canvas.height = 200; // Set canvas height
+                    canvas.width = 400;  // Set canvas width
+                    canvas.height = 400; // Set canvas height
                     let ctx = canvas.getContext('2d');
 
                     // Draw the background image
@@ -130,10 +130,10 @@
             let img = new Image();
             img.onload = function() {
                 let canvas = document.createElement('canvas');
-                canvas.width = 200;  // Set canvas width
-                canvas.height = 200; // Set canvas height
+                canvas.width = 400;  // Set canvas width
+                canvas.height = 400; // Set canvas height
                 let ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
                 document.body.appendChild(canvas);
             };
             img.src = src;
