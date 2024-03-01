@@ -1,4 +1,4 @@
-import { inappropriateWords } from 'https://breakout-x.github.io/character-ai-test/AI/Orion-v1/badwords.js';
+import { inappropriateWords } from 'https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/AI/Orion-v1/badwords.js';
 // Requires a full url
 
 var c = document.getElementById("myCanvas");
