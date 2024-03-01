@@ -18,7 +18,7 @@ function generateImage() {
   let gender = parts[actionIndex - 2];
   let color = parts[actionIndex - 3];
   let animal = parts[actionIndex - 4];
-  let setting = parts[actionIndex + 1];
+  let setting = parts[actionIndex + 2];
 
   // Check if there is a second animal
   let andIndex = parts.indexOf("and");
