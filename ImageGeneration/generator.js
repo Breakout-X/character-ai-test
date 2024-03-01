@@ -40,12 +40,12 @@ function generateImage() {
     loadImage(animalImage, function(animalImg) {
     // Create a canvas and get the context
     let canvas = document.createElement('canvas');
-    canvas.width = 500;  // Set canvas width
+    canvas.width = 600;  // Set canvas width
     canvas.height = 300; // Set canvas height
     let ctx = canvas.getContext('2d');
 
     // Draw the background image
-    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bgImage, 0, 0, img.width * 1.5, img.height * 1.5);
 
     // Create a second canvas for the animal image
     let animalCanvas = document.createElement('canvas');
@@ -61,7 +61,7 @@ function generateImage() {
     animalCtx.globalCompositeOperation = "source-over";
 
     // Draw the tinted animal image onto the main canvas
-    ctx.drawImage(animalCanvas, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(animalCanvas, 0, 0, img.width, img.height);
 
     // If there is a second animal, load its image
     if (secondAnimal) {
@@ -114,7 +114,7 @@ function displayImage(src) {
   canvas.width = 500;  // Set canvas width
   canvas.height = 300; // Set canvas height
   let ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, img.width * 2, img.height * 2);
+  ctx.drawImage(img, 0, 0, img.width * 1.5, img.height * 1.5);
     document.body.appendChild(canvas);
   };
   img.src = src;
