@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Image Generator</title>
-    <style>
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
-</head>
-<body>
-    <input type="text" id="command" placeholder="Enter command here">
-    <button onclick="generateImage()">Generate Image</button>
-
+    <head>
+        <title>Image Generator</title>
+        <style>
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="command" placeholder="Enter command here">
+        <button onclick="generateImage()">Generate Image</button>
+    </body>
     <script type="module" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/AI/Orion-v1/badwords.js" onerror="An error occurred in loading 'badwords.js'. Please refresh the page."></script>
     <script onerror="An unknown error occured. Please refresh the page and try again">
         // Function to generate the image based on the command
@@ -138,5 +138,4 @@
             img.src = src;
         }
     </script>
-</body>
 </html>
