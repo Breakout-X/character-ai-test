@@ -111,10 +111,10 @@ function displayImage(src) {
   let img = new Image();
   img.onload = function() {
   let canvas = document.createElement('canvas');
-  canvas.width = 600;  // Set canvas width
-  canvas.height = 300; // Set canvas height
+  canvas.width = img.width * 1.5;  // Set canvas width
+  canvas.height = img.height * 1.5; // Set canvas height
   let ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, img.width * 1.5, img.height * 1.5);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     document.body.appendChild(canvas);
   };
   img.src = src;
