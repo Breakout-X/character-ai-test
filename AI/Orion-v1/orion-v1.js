@@ -9,8 +9,8 @@ try {
     var swearWords; // Block these
     var innapropriateWords; // Block these
     var sensitiveWords; // Block these on restricted mode only
-    var reallyBadWords = ['nude', 'porn', 'naked']; // Block these and ban
-    var allBadWords = reallyBadWords; // Don't use
+    var reallyBadWords; // Block these and ban
+    var allBadWords; // Don't use
 }
 
 var c = document.getElementById("myCanvas");
