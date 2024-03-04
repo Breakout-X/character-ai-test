@@ -13,6 +13,7 @@ try {
     var reallyBadWords = ['nude', 'porn', 'naked']; // Block these and ban
     var allBadWords = reallyBadWords; // Don't use
 }
+alert("working")
 // Function to generate the image based on the command
 function generateImage() {
   // Get the command from the input field
