@@ -1,11 +1,36 @@
-
+try { 
+    swearWords; // Block these
+    innapropriateWords; // Block these
+    sensitiveWords; // Block these on restricted mode only
+    reallyBadWords; // Block these and ban
+    allBadWords; // Don't use
+}catch (e)
+    console.error("Could not load badwords.js content. Replacing with placeholders");
+    var swearWords; // Block these
+    var innapropriateWords; // Block these
+    var sensitiveWords; // Block these on restricted mode only
+    var reallyBadWords = ['nude', 'porn', 'naked']; // Block these and ban
+    var allBadWords = reallyBadWords; // Don't use
+}
 // Function to generate the image based on the command
 function generateImage() {
   // Get the command from the input field
   let command = document.getElementById('command').value;
 
   // Check for inappropriate words
-  for (let word of window.inappropriateWords) {
+  for (let word of swearWords) {
+    if (command.includes(word)) {
+      displayImage("https://breakout-x.github.io/character-ai-test/img/ELedlow-the-male-fox-blocked-content-screen.png");
+        return;
+    }
+  }
+  for (let word of innapropriateWords) {
+    if (command.includes(word)) {
+      displayImage("https://breakout-x.github.io/character-ai-test/img/ELedlow-the-male-fox-blocked-content-screen.png");
+        return;
+    }
+  }
+  for (let word of reallyBadWords) {
     if (command.includes(word)) {
       displayImage("https://breakout-x.github.io/character-ai-test/img/ELedlow-the-male-fox-blocked-content-screen.png");
         return;
