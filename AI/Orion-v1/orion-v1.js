@@ -1,5 +1,17 @@
-import { inappropriateWords } from 'https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/AI/Orion-v1/badwords.js';
-// Requires a full url
+try { 
+    swearWords; // Block these
+    innapropriateWords; // Block these
+    sensitiveWords; // Block these on restricted mode only
+    reallyBadWords; // Block these and ban
+    allBadWords; // Don't use
+}catch (e)
+    console.error("Could not load badwords.js content. Replacing with placeholders");
+    var swearWords; // Block these
+    var innapropriateWords; // Block these
+    var sensitiveWords; // Block these on restricted mode only
+    var reallyBadWords = ['nude', 'porn', 'naked']; // Block these and ban
+    var allBadWords = reallyBadWords; // Don't use
+}
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
@@ -12,9 +24,24 @@ window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
         if(message !== '') {
-            if(inappropriateWords.some(word => message.includes(word))) {
+            if(swearWords.some(word => message.includes(word))) {
                 updateChatbox(input.value, 'user');
-                updateChatbox('Hmm, something went wrong. Let\'s move on to a different topic.', 'bot');
+                updateChatbox('Hmm, something went wrong. The filter found a word that violates the RULES and TERMS. Let\'s move on to a different topic.', 'bot');
+                return;
+            }
+            if(innapropriateWords.some(word => message.includes(word))) {
+                updateChatbox(input.value, 'user');
+                updateChatbox('Hmm, something went wrong. I would be fine with talking about stuff like that, but not to you, and not here. Let\'s start over.', 'bot');
+                return;
+            }
+            if(restrictedMode && innapropriateWords.some(word => message.includes(word))) {
+                updateChatbox(input.value, 'user');
+                updateChatbox('Hmm, something went wrong. Let\'s start over.', 'bot');
+                return;
+            }
+            if(reallyBadWords.some(word => message.includes(word))) {
+                updateChatbox(input.value, 'user');
+                updateChatbox('You should know better than that. That word violates the TERMS and RULES', 'bot');
                 return;
             }
 
