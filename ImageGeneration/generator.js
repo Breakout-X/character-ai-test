@@ -6,6 +6,7 @@ try {
     allBadWords; // Don't use
 }catch (e)
     console.error("Could not load badwords.js content. Replacing with placeholders");
+    alert("err")
     var swearWords; // Block these
     var innapropriateWords; // Block these
     var sensitiveWords; // Block these on restricted mode only
