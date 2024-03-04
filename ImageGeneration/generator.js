@@ -1,3 +1,4 @@
+//check for bad words
 try { 
     swearWords; // Block these
     innapropriateWords; // Block these
