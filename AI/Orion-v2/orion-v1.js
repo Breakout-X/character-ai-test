@@ -1,3 +1,5 @@
+var chatDisabled = false;
+
 try { 
     swearWords; // Block these
     innapropriateWords; // Block these
@@ -11,16 +13,21 @@ try {
     sensitiveWords = [] // Block these on restricted mode only
     reallyBadWords = []; // Block these and ban
     allBadWords = []; // Don't use
+    chatDisabled = true;
+    updateChatbox('Oops, something went wrong. Please try refreshing the page.', 'bot');
 }
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 var chatbox = document.getElementById('chatbox');
 var input = document.getElementById('input');
-var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-talk-2.png"];
-var OrionImageIndex = 0;
-var restrictedMode;
-var chatDisabled = false;
+/*var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-talk-2.png"].map(src => {
+    var img = new Image();
+    img.src = src;
+    return img;
+});*/
+//var OrionImageIndex = 0;
+var restrictedMode = false;
 
 window.sendMessage = function() {
     try {
