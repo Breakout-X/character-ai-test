@@ -30,9 +30,9 @@ try {
     allBadWords; // Don't use
 } catch (e) {
     console.error("Could not load badwords.js content. Replacing with placeholders");
-    swearWords = [] // Block these
-    innapropriateWords = [] // Block these
-    sensitiveWords = [] // Block these on restricted mode only
+    swearWords = []; // Block these
+    innapropriateWords = []; // Block these
+    sensitiveWords = []; // Block these on restricted mode only
     reallyBadWords = []; // Block these and ban
     allBadWords = []; // Don't use
     chatDisabled = true;
