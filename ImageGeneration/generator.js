@@ -7,11 +7,11 @@ try {
     allBadWords; // Don't use
 } catch (e) {
     console.error("Could not load badwords.js content. Replacing with placeholders");
-    var swearWords; // Block these
-    var innapropriateWords; // Block these
-    var sensitiveWords; // Block these on restricted mode only
-    var reallyBadWords; // Block these and ban
-    var allBadWords = reallyBadWords; // Don't use
+    swearWords = [];
+    innapropriateWords = [];
+    sensitiveWords = [];
+    reallyBadWords = [];
+    allBadWords = [];
 }
 // Function to generate the image based on the command
 function generateImage() {
