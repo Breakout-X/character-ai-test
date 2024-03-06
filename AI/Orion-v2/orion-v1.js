@@ -1,21 +1,13 @@
-var chatDisabled = false;
-
-try { 
-    swearWords; // Block these
-    innapropriateWords; // Block these
-    sensitiveWords; // Block these on restricted mode only
-    reallyBadWords; // Block these and ban
-    allBadWords; // Don't use
-}catch (e)
-    console.error("Could not load badwords.js content. Replacing with placeholders");
-    swearWords = [] // Block these
-    innapropriateWords = [] // Block these
-    sensitiveWords = [] // Block these on restricted mode only
-    reallyBadWords = []; // Block these and ban
-    allBadWords = []; // Don't use
-    chatDisabled = true;
-    updateChatbox('Oops, something went wrong. Please try refreshing the page.', 'bot');
-}
+/*Orion-v2.js
+Orion-v2 is a chatbot based off of the character "Orion the Rabbit" from the Arrow Series.
+His goal is not to just chat, but to also help you program using the mcf language.
+He is meant to be as nice as possible, but at the same time is a little but more Wild than the other chatbots are.
+He can read your cookies, username, and age as that is how he gets enough data to filter things.
+He has his own personality.
+He does have a temper depending on the topic.
+He can't talk about certain subjects to certain users.
+He will be able to generate images soon.
+*/
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
@@ -27,8 +19,27 @@ var input = document.getElementById('input');
     return img;
 });*/
 //var OrionImageIndex = 0;
-var restrictedMode = false;
+var restrictedMode = false; // Default value
+var chatDisabled = false; // Default value
 
+try { 
+    swearWords; // Block these
+    innapropriateWords; // Block these
+    sensitiveWords; // Block these on restricted mode only
+    reallyBadWords; // Block these and ban
+    allBadWords; // Don't use
+} catch (e) {
+    console.error("Could not load badwords.js content. Replacing with placeholders");
+    swearWords = [] // Block these
+    innapropriateWords = [] // Block these
+    sensitiveWords = [] // Block these on restricted mode only
+    reallyBadWords = []; // Block these and ban
+    allBadWords = []; // Don't use
+    chatDisabled = true;
+    updateChatbox('Oops, something went wrong. Please try refreshing the page.', 'bot');
+}
+
+// Send Message function
 window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
