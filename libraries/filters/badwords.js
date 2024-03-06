@@ -10,6 +10,7 @@
 *   <script type="text/javascript" src="your-script.js"></script>
 * </html>
 * ``` 
+* If that link does not work properly, use this one instead: https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/libraries/filters/badwords.js
 *
 * Include one of these in your program:
 *
