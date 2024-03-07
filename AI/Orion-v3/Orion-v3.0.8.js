@@ -52,12 +52,12 @@ Date.prototype.timeNow = function () {
 // Format the date and time
 function formatDateTime(typeofformat = 1) {
     const newDate = new Date();
+    let formattedDateTime = `Invalid format`;
+    // Checks format
     if (typeofformat === 1) {
-        const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+        formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
     }else if (typeofformat === 2) {
-        const formattedDateTime = `The current date is: ${newDate.today()}, and the current time is: ${newDate.timeNow()}.`;
-    }else{
-        const formattedDateTime = `Invalid format.`;
+        formattedDateTime = `The current date is: ${newDate.today()}, and the current time is: ${newDate.timeNow()}.`;
     }
     return formattedDateTime;
 }
@@ -85,19 +85,28 @@ window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
         // Will only send message if message is not blank.
+        if(chatDisabled) {
+            input.disabled = true;
+        }
         if(message !== '') {
 
             // Send user message
             updateChatbox(input.value, 'user');
 
-            let response = generateResponse(message);
+            let response = '';
 
             // Wait to send bot message
             setTimeout(() => {
+                // Check for bad words
                 let badWords = checkForBadWords(message);
-                if (badWords) {
+                if (badWords) { 
+                    //If it caught a bad word, the function returns immediatly
                     return;
                 }
+
+                // Generate bot response
+                response = generateResponse(message);
+                
                 // Send bot message
                 updateChatbox(response, 'bot');
                 //drawBotImage(); // Do not use yet
