@@ -83,11 +83,12 @@ window.sendMessage = function() {
                 updateChatbox(response, 'bot');
                 //drawBotImage(); // Do not use yet
             }, 1000);
-            input.value = '';
         }
+        // Clear the input field
+        input.value = '';
     } catch (error) {
         disableChat(true, true, false);
-        updateChatbox('Oops, something went wrong in sending your message. Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
+        updateChatbox('Error sending message: '+ error +' Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
         console.error('Error sending message:', error);
     }
 }
@@ -109,6 +110,7 @@ function checkForBadWords(message) {
     if(filter < 1) {
         const newDate = new Date();
         const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+        updateChatbox(input.value, 'user');
         updateChatbox(`Error: Exception FFI${formattedDateTime} occurred. Contact Breakout-X to fix the issue.`, 'bot');
         updateChatbox('Invalid filter settings', 'bot');
         disableChat(true, true, false);
@@ -305,7 +307,6 @@ function generateResponse(message) {
 // Function to update the chatbox
 function updateChatbox(message, sender) {
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
-    input.value = '';
     chatbox.scrollTop = chatbox.scrollHeight;
 }
 
