@@ -47,6 +47,19 @@ Date.prototype.timeNow = function () {
   return `${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`;
 };
 
+// Format the date and time
+function formatDateTime(typeofformat = 1) {
+    const newDate = new Date();
+    if (tcypeofformat === 1) {
+        const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+    }else if (typeofformat === 2) {
+        const formattedDateTime = `The current date is: ${newDate.today()}, and the current time is: ${newDate.timeNow()}.`;
+    }else{
+        const formattedDateTime = `Invalid format.`
+    }
+    return formattedDateTime;
+}
+
 try { 
     swearWords; // Block these
     innapropriateWords; // Block these depending on context
@@ -69,17 +82,21 @@ try {
 window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
+        // Will only send message if message is not blank.
         if(message !== '') {
 
+            // Send user message
             updateChatbox(input.value, 'user');
 
             let response = generateResponse(message);
-            
+
+            // Wait to send bot message
             setTimeout(() => {
                 let badWords = checkForBadWords(message);
                 if (badWords) {
                     return;
                 }
+                // Send bot message
                 updateChatbox(response, 'bot');
                 //drawBotImage(); // Do not use yet
             }, 1000);
@@ -87,7 +104,9 @@ window.sendMessage = function() {
         // Clear the input field
         input.value = '';
     } catch (error) {
+        // Disables chat due to error
         disableChat(true, true, false);
+        // Logs error and send a message of the error
         updateChatbox('Error sending message: '+ error +' Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
         console.error('Error sending message:', error);
     }
@@ -98,8 +117,7 @@ function disableChat(boolian1, boolian2, boolian3) {
     chatDisabled = boolian1; // Disabling chat only results in suspension.
     errorDisable = boolian2; // Disabling chat and enabling this results in... well, an error.
     chatLimit = boolian3; // Disabling chat and enabling this results in you not being able to chat anymore until next day.
-    // You CANNOT enable errorDisable without chatDisabled being true.
-    // You CANNOT enable chatLimit alone either.
+    // You are REQUIRED to disable chat before running the other boolians.
 }
 
 // Function that checks for bad words.
@@ -108,31 +126,31 @@ function checkForBadWords(message) {
     // If the filter is set to 0 or less, it will uncensor the chat... 
     // which would be bad obviously.
     if(filter < 1) {
-        const newDate = new Date();
-        const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+        const date = formatDateTime(1);
         updateChatbox(input.value, 'user');
-        updateChatbox(`Error: Exception FFI${formattedDateTime} occurred. Contact Breakout-X to fix the issue.`, 'bot');
+        updateChatbox(`Error: Exception FFI${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
         updateChatbox('Invalid filter settings', 'bot');
         disableChat(true, true, false);
+        throw new Error(`Error: Exception FFI${date} occurred.`);
         return true;
     }
-    
+
     // Checks your message for swear words.
-    if(swearWords.some(word => message.includes(word))) {
+    if(filter > 0 && swearWords.some(word => message.includes(word))) {
         updateChatbox(input.value, 'user');
         updateChatbox('Hmm, something went wrong. Shall we move on to a different topic?', 'bot');
         return true;
     }
 
     // Checks your message for sex-related innapropriate words.
-    if(innapropriateWords.some(word => message.includes(word)) && filter > 1) {
+    if(filter > 1 && innapropriateWords.some(word => message.includes(word)) {
         updateChatbox(input.value, 'user');
         updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over?', 'bot');
         return true;
     }
 
     // If restricted mode is enabled and filter is greater than 2, sensitive words are disabled.
-    if(sensitiveWords.some(word => message.includes(word)) && filter > 2) {
+    if(filter > 2 && sensitiveWords.some(word => message.includes(word))) {
         updateChatbox(input.value, 'user');
         updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic?', 'bot');
         return true;
@@ -145,17 +163,17 @@ function checkForBadWords(message) {
         disableChat(true, false, false);
         return true;
     }
-    
+
     // Checks his message
     if (previousResponse !== '') {
-        // If he said a swear word, it throws and error.
+        // If he said a swear word, it throws a error.
         if(swearWords.some(word => message.includes(word))) {
-            const newDate = new Date();
-            const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+            const date = formatDateTime(1);
             updateChatbox(input.value, 'user');
-            updateChatbox('Hmm, that was embarrasing, somehow, I said a swear word from universe. To prevent further inconviences, I\'m going to temporarily disable the chat', 'bot');
-            updateChatbox(`Error: Exception DSW0B${formattedDateTime} occurred. Contact Breakout-X to fix the issue.`, 'bot');
+            updateChatbox('Hmm, that was embarrasing, somehow, I said a swear word. To prevent further inconviences, I\'m going to temporarily disable the chat', 'bot');
+            updateChatbox(`Error: Exception DSW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
             disableChat(true, true, false);
+            throw new Error(`Error: Exception DSW0B${date} occurred,.`);
             return true;
         }
 
@@ -163,19 +181,22 @@ function checkForBadWords(message) {
         // innapropriateWords value isn't the same as reallyBadWords because
         // the innapropriateWords is different.
         if(innapropriateWords.some(word => message.includes(word)) && filter > 1) {
+            const date = formatDateTime(1);
             updateChatbox(input.value, 'user');
             updateChatbox('I\'t seems I made a mistake bypassing the filters. Since this was my mistake, I won\'t punish you. We\'ll keep talking about it.', 'bot');
+            console.error(`Error: Exceptioon DIW0B${date} occurred.`);
+            console.log('Error bypassed.')
             filter = 1; // Lowers filter to prevent cycling.
-            // Does not return because it wasn't likely your fault. 
+            // Does not return because you didn't say it. 
         }
 
         // If he says a really bad word somehow, he just returns an error.
         if(reallyBadWords.some(word => message.includes(word))) {
-            const newDate = new Date();
-            const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+            const date = formatDateTime(1);
             updateChatbox(input.value, 'user');
-            updateChatbox(`Error: Exception DRBW0B${formattedDateTime} occurred. Contact Breakout-X to fix the issue.`, 'bot');
+            updateChatbox(`Error: Exception DRBW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
             disableChat(true, true, false);
+            throw new Error(`Error: Exception DRBW0B${date} occurred.`)
             // This could only be the user's fault. That's why this one disables.
             return true;
         }
@@ -186,7 +207,7 @@ function checkForBadWords(message) {
 // This is the code to generate his response
 function generateResponse(message) {
     let response = '';
-    responseTotal += 1; // Adds one to the response total;
+    responseTotal = responseTotlal + 1; // Adds one to the response total;
     // Check If conversation has gone for too long
     if (responseTotal > 30) {
         disableChat(true, false, true); // Ends chat
@@ -201,7 +222,7 @@ function generateResponse(message) {
             // Disables chat due to long conversation.
             response = "It seems our conversation has ended. Let's move on to a new topic.";
             // Make prompt for a new Topic ELedlow.
-        }else {
+        } else {
             // Disables chat due to inresponsibility
             response = "Chat is currently disabled due to suspension. Wait a couple minutes before chatting again.";
         }
@@ -227,7 +248,7 @@ function generateResponse(message) {
             I prefer to eat meat unlike most rabbit power animals and I like to sleep as any power animal does. 
             I hate it when someone I trust betrays me after trusting them for a while. 
             It's a pleasure to meet you.`, 
-            
+
             `Of course! My name is Orion the Power Rabbit. 
             Most know me because of my black fur and white belly fur.
             I live currently in the Endless Forest. 
@@ -236,7 +257,7 @@ function generateResponse(message) {
             I prefer to eat meat rather than fruit, and I like sleeping. 
             I hate sudden betrayals.
             It's a pleasure to meet you.`, 
-            
+
             `Sure! My name is Orion the Power Rabbit. 
             I currently live in the Endless Forest. 
             My mate is Luna the Rabbit. 
@@ -298,9 +319,8 @@ function generateResponse(message) {
         response = 'I am sorry, I didn\'t understand that.';
     }
     // Handles messages
-    previousResponse = response;
-    previousMessage = message;
-    // Add previousResponse and previousMessage to the conversationHistory array ELedlow.
+    previousMessage = message; previousResponse = response;
+    addToHistory(`You sent: ${previousMessage}`,`Orion sent: ${previousResponse}`);
     return response;
 }
 
@@ -308,6 +328,15 @@ function generateResponse(message) {
 function updateChatbox(message, sender) {
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
     chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+// Add to history
+function addToHistory(...args) {
+  for (let arg of args) {
+    if (arg !== "" && arg !== undefined) {
+      conversationHistory.push(arg);
+    }
+  }
 }
 
 // Fix this ELedlow
@@ -322,7 +351,7 @@ function drawBotImage() {
 }
 
 // Image Generation code
-function generateImage(input, stuff, goes, here) {
+function generateImage(input) {
     // Put generation code here
 }
 
