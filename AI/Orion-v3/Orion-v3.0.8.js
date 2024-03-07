@@ -224,7 +224,7 @@ function checkForBadWords(message) {
 function generateResponse(message) {
     let response = '';
     try {
-        responseTotal = responseTotal + 1; // Adds one to the response total;
+        //responseTotal = responseTotal + 1; // Adds one to the response total;
         // Check If conversation has gone for too long
         if (responseTotal > 30) {
             disableChat(true, false, true); // Ends chat
