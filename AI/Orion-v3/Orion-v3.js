@@ -62,7 +62,7 @@ try {
     reallyBadWords = [];
     allBadWords = [];
     disableChat(true, true, false);
-    updateChatbox('Oops, something went wrong. Please try refreshing the page.', 'bot');
+    updateChatbox('Oops, something went wrong in loading the filters. Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
 }
 
 // Send Message function
@@ -86,7 +86,7 @@ window.sendMessage = function() {
         }
     } catch (error) {
         disableChat(true, true, false);
-        
+        updateChatbox('Oops, something went wrong in sending your message. Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
         console.error('Error sending message:', error);
     }
 }
