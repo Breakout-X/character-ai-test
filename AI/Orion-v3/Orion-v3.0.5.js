@@ -50,7 +50,7 @@ Date.prototype.timeNow = function () {
 // Format the date and time
 function formatDateTime(typeofformat = 1) {
     const newDate = new Date();
-    if (tcypeofformat === 1) {
+    if (typeofformat === 1) {
         const formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
     }else if (typeofformat === 2) {
         const formattedDateTime = `The current date is: ${newDate.today()}, and the current time is: ${newDate.timeNow()}.`;
