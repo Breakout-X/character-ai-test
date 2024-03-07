@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color: darkgray;
+            }
+            .user, .bot {
+                margin: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border:2px solid white;
+                background-color: black;
+                color: white;
+            }
+            .user {
+                color: lightgray;
+            }
+            .bot {
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="10" height="10" style="border:1px solid #d3d3d3;">
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
+    
+        <input id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.key==='Enter'){ sendMessage(); }">
+        <button onclick="sendMessage()">Send</button>
+    
+        <div id="chatbox"></div>
+    </body>
+    <!--The scripts only work if linked with the full url-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/libraries/filters/badwords.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/AI/Orion-v2/orion-v2.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
+</html>
