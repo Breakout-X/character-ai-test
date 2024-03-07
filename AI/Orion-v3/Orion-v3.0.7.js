@@ -146,7 +146,7 @@ function checkForBadWords(message) {
         }
     
         // Checks your message for sex-related innapropriate words.
-        if(filter > 1 && innapropriateWords.some(word => message.includes(word)) {
+        if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
             updateChatbox(input.value, 'user');
             updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over?', 'bot');
             return true;
@@ -183,7 +183,7 @@ function checkForBadWords(message) {
             // If he said an innapropriate word, he shrugs it off since the 
             // innapropriateWords value isn't the same as reallyBadWords because
             // the innapropriateWords is different.
-            if(innapropriateWords.some(word => message.includes(word)) && filter > 1) {
+            if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
                 const date = formatDateTime(1);
                 updateChatbox(input.value, 'user');
                 updateChatbox('I\'t seems I made a mistake bypassing the filters. Since this was my mistake, I won\'t punish you. We\'ll keep talking about it.', 'bot');
