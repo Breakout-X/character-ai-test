@@ -112,8 +112,6 @@ window.sendMessage = function() {
                 //drawBotImage(); // Do not use yet
             }, 1000);
         }
-        // Clear the input field
-        input.value = '';
     } catch (error) {
         // Disables chat due to error
         disableChat(true, true, false);
@@ -346,8 +344,11 @@ function generateResponse(message) {
 
 // Function to update the chatbox
 function updateChatbox(message, sender) {
+    // Send the message
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
     chatbox.scrollTop = chatbox.scrollHeight;
+    // Clear the input field
+    input.value = '';
 }
 
 // Add to history
