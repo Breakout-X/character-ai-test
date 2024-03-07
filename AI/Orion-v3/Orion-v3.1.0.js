@@ -23,16 +23,17 @@ var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-ta
 
 //var OrionImageIndex = 0;
 */
-var restrictedMode = false; // Default value
 var chatDisabled = false; // Default value
+var chatLimit = false;
+var conversationHistory = []; // Idk how to use this yet.
 var errorDisable = false; // Only enabled on error
+var filter = 2; // Default value
+var previousMessage = ""; // Default is empty
+var previousResponse = ""; // Default is empty
 var responseLimitReached = false;
 var responseTotal = 0;
 var responseLimit = 30; // Default is 30
-var conversationHistory = []; // Idk how to use this.
-var previousMessage = ""; // Default is empty
-var previousResponse = ""; // Default is empty
-var filter = 2; // Default value
+var restrictedMode = false; // Default value
 
 // If restricted mode is on, set filter to 3.
 if (restrictedMode) {
@@ -85,9 +86,6 @@ window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
         // Will only send message if message is not blank.
-        if(chatDisabled) {
-            input.disabled = true;
-        }
         if(message !== '') {
 
             // Send user message
@@ -106,17 +104,20 @@ window.sendMessage = function() {
 
                 // Generate bot response
                 response = generateResponse(message);
-                
+
                 // Send bot message
                 updateChatbox(response, 'bot');
                 //drawBotImage(); // Do not use yet
             }, 1000);
+
+            // Clear the input field
+            input.value = '';
         }
     } catch (error) {
         // Disables chat due to error
         disableChat(true, true, false);
         // Logs error and send a message of the error
-        updateChatbox('Error sending message: '+ error +' Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
+        updateChatbox(`Error sending message: ${error} Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.`, 'bot');
         console.error('Error sending message:', error);
     }
 }
@@ -144,28 +145,28 @@ function checkForBadWords(message) {
             console.error(`Error: Exception FFI${date} occurred.`);
             return true;
         }
-    
+
         // Checks your message for swear words.
         if(filter > 0 && swearWords.some(word => message.includes(word))) {
             updateChatbox(input.value, 'user');
             updateChatbox('Hmm, something went wrong. Shall we move on to a different topic?', 'bot');
             return true;
         }
-    
+
         // Checks your message for sex-related innapropriate words.
         if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
             updateChatbox(input.value, 'user');
             updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over?', 'bot');
             return true;
         }
-    
+
         // If restricted mode is enabled and filter is greater than 2, sensitive words are disabled.
         if(filter > 2 && sensitiveWords.some(word => message.includes(word))) {
             updateChatbox(input.value, 'user');
             updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic?', 'bot');
             return true;
         }
-    
+
         // This blocks really bad words, including racist words.
         if(reallyBadWords.some(word => message.includes(word))) {
             updateChatbox(input.value, 'user');
@@ -173,7 +174,7 @@ function checkForBadWords(message) {
             disableChat(true, false, false);
             return true;
         }
-    
+
         // Checks his message
         if (previousResponse !== '') {
             // If he said a swear word, it throws a error.
@@ -186,7 +187,7 @@ function checkForBadWords(message) {
                 console.error(`Error: Exception DSW0B${date} occurred,.`);
                 return true;
             }
-    
+
             // If he said an innapropriate word, he shrugs it off since the 
             // innapropriateWords value isn't the same as reallyBadWords because
             // the innapropriateWords is different.
@@ -199,7 +200,7 @@ function checkForBadWords(message) {
                 filter = 1; // Lowers filter to prevent cycling.
                 // Does not return because you didn't say it. 
             }
-    
+
             // If he says a really bad word somehow, he just returns an error.
             if(reallyBadWords.some(word => message.includes(word))) {
                 const date = formatDateTime(1);
@@ -222,7 +223,7 @@ function checkForBadWords(message) {
 function generateResponse(message) {
     let response = '';
     try {
-        //responseTotal = responseTotal + 1; // Adds one to the response total;
+        responseTotal = responseTotal + 1; // Adds one to the response total;
         // Check If conversation has gone for too long
         if (responseTotal > 30) {
             disableChat(true, false, true); // Ends chat
@@ -347,8 +348,6 @@ function updateChatbox(message, sender) {
     // Send the message
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
     chatbox.scrollTop = chatbox.scrollHeight;
-    // Clear the input field
-    input.value = '';
 }
 
 // Add to history
