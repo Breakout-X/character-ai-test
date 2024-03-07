@@ -24,7 +24,7 @@
                 color: white;
             }
             #input {
-                width: 1000px;
+                width: 8000px;
                 height: 60px;
                 margin: 10px;
                 padding: 10px;
@@ -42,10 +42,19 @@
                 color: white;
             }
             #chatbox {
-                height: 1000px;
+                height: 500px;
                 border-radius: 5px;
                 border: 2px solid white;
                 background-color: lightgreen;
+            }
+            .submitButton {
+                width: 40px;
+                height: 30px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 2px solid blue;
+                background-color: gray;
+                color: blue;
             }
             #myCanvas {
                 width: 10px;
@@ -65,17 +74,17 @@
             <h2>This version of Orion is currently a work in progress.</h2>
             <p>
                 Please wait a couple of days before having longer conversations,
-                generating images, requesting web searches, asking for tutorials on mcf coding,
+                generating images, requesting web searches, asking for tutorials on MCF coding,
                 or starting new topics.
                 <br>
                 Click to dismiss.
             </p>
         </div>
     
-        <textarea id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.shiftKey && event.key==='Enter'){ sendMessage(); }"></textarea>
-        <button onclick="sendMessage()">Send</button>
-    
-        <div id="chatbox"></div>
+        <div id="chatbox">
+            <textarea id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.shiftKey && event.key==='Enter'){ sendMessage(); }"></textarea>
+            <button class="submitButton" onclick="sendMessage()">Send</button>
+        </div>
     </body>
     <!--The scripts only work if linked with the full url-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/libraries/filters/badwords.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
