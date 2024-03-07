@@ -10,11 +10,8 @@ He will be able to generate images soon.
 FINALLY, V3!!
 */
 
-const c = document.getElementById("myCanvas");
-const ctx = c.getContext("2d");
-const chatbox = document.getElementById('chatbox');
-const input = document.getElementById('input');
-/* This code draws in the wrong canvas. Ignore for now unless you have a solution
+// This code is currently unused due to bugs
+/*
 var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-talk-2.png"].map(src => {
     var img = new Image();
     img.src = src;
@@ -23,8 +20,13 @@ var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-ta
 
 //var OrionImageIndex = 0;
 */
-var chatDisabled = false; // Default value
-var chatLimit = false;
+
+// Variable declarations
+const c = document.getElementById("myCanvas"); // Ignore this
+const ctx = c.getContext("2d"); // Ignore
+const chatbox = document.getElementById('chatbox'); // This is the chatbox
+const input = document.getElementById('input'); // This is the input for the chatbox
+var chatDisabled = false; // Default value 
 var conversationHistory = []; // Idk how to use this yet.
 var errorDisable = false; // Only enabled on error
 var filter = 2; // Default value
@@ -126,7 +128,7 @@ window.sendMessage = function() {
 function disableChat(boolian1, boolian2, boolian3) {
     chatDisabled = boolian1; // Disabling chat only results in suspension.
     errorDisable = boolian2; // Disabling chat and enabling this results in... well, an error.
-    chatLimit = boolian3; // Disabling chat and enabling this results in you not being able to chat anymore until next day.
+    responseLimitReached = boolian3; // Disabling chat and enabling this results in you not being able to chat anymore until next day.
     // You are REQUIRED to disable chat before running the other boolians.
 }
 
@@ -134,11 +136,10 @@ function disableChat(boolian1, boolian2, boolian3) {
 function checkForBadWords(message) {
     try {
         // Checks for valid filter. 
-        // If the filter is set to 0 or less, it will uncensor the chat... 
-        // which would be bad obviously.
+        // If the filter is set to 0 or less, it will uncensor the chat... which would be bad obviously.
+        let date = formatDateTime(1);
         if(filter < 1) {
-            const date = formatDateTime(1);
-            updateChatbox(input.value, 'user');
+            updateChatbox('', 'user');
             updateChatbox(`Error: Exception FFI${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
             updateChatbox('Invalid filter settings', 'bot');
             disableChat(true, true, false);
@@ -148,28 +149,28 @@ function checkForBadWords(message) {
 
         // Checks your message for swear words.
         if(filter > 0 && swearWords.some(word => message.includes(word))) {
-            updateChatbox(input.value, 'user');
+            updateChatbox('', 'user');
             updateChatbox('Hmm, something went wrong. Shall we move on to a different topic?', 'bot');
             return true;
         }
 
         // Checks your message for sex-related innapropriate words.
         if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
-            updateChatbox(input.value, 'user');
+            updateChatbox('', 'user');
             updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over?', 'bot');
             return true;
         }
 
         // If restricted mode is enabled and filter is greater than 2, sensitive words are disabled.
         if(filter > 2 && sensitiveWords.some(word => message.includes(word))) {
-            updateChatbox(input.value, 'user');
+            updateChatbox('', 'user');
             updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic?', 'bot');
             return true;
         }
 
         // This blocks really bad words, including racist words.
         if(reallyBadWords.some(word => message.includes(word))) {
-            updateChatbox(input.value, 'user');
+            updateChatbox('', 'user');
             updateChatbox('Hmm, this content is Blocked. It seems you are in direct violation of the TERMS and RULES. You have been suspended from the chat area. If this was an error, please contact Breakout-X.', 'bot');
             disableChat(true, false, false);
             return true;
@@ -179,8 +180,7 @@ function checkForBadWords(message) {
         if (previousResponse !== '') {
             // If he said a swear word, it throws a error.
             if(swearWords.some(word => message.includes(word))) {
-                const date = formatDateTime(1);
-                updateChatbox(input.value, 'user');
+                updateChatbox('', 'user');
                 updateChatbox('Hmm, that was embarrasing, somehow, I said a swear word. To prevent further inconviences, I\'m going to temporarily disable the chat', 'bot');
                 updateChatbox(`Error: Exception DSW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
                 disableChat(true, true, false);
@@ -192,8 +192,7 @@ function checkForBadWords(message) {
             // innapropriateWords value isn't the same as reallyBadWords because
             // the innapropriateWords is different.
             if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
-                const date = formatDateTime(1);
-                updateChatbox(input.value, 'user');
+                updateChatbox('', 'user');
                 updateChatbox('I\'t seems I made a mistake bypassing the filters. Since this was my mistake, I won\'t punish you. We\'ll keep talking about it.', 'bot');
                 console.error(`Error: Exceptioon DIW0B${date} occurred.`);
                 console.log('Error bypassed.')
@@ -203,8 +202,7 @@ function checkForBadWords(message) {
 
             // If he says a really bad word somehow, he just returns an error.
             if(reallyBadWords.some(word => message.includes(word))) {
-                const date = formatDateTime(1);
-                updateChatbox(input.value, 'user');
+                updateChatbox('', 'user');
                 updateChatbox(`Error: Exception DRBW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
                 disableChat(true, true, false);
                 console.error(`Error: Exception DRBW0B${date} occurred.`)
@@ -231,10 +229,9 @@ function generateResponse(message) {
         // Check if chat is disabled?
         if (chatDisabled) {
             if (errorDisable) {
-                // Disables chat due to error.
-                response = "Chat is currently disabled due to an error. Please refresh the page before chatting again.";
-                throw new Error("Chat disabled due to error");
-            } else if (chatLimit) {
+                response = "Chat is currently disabled due to an error. Please refresh the page before chatting again. If the issue persists, please contact Breakout-X.";
+                console.error("Chat disabled due to error");
+            } else if (responseLimitReached) {
                 // Disables chat due to long conversation.
                 response = "It seems our conversation has ended. Let's move on to a new topic.";
                 // Make prompt for a new Topic ELedlow.
@@ -347,7 +344,7 @@ function generateResponse(message) {
 function updateChatbox(message, sender) {
     // Send the message
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
-    chatbox.scrollTop = chatbox.scrollHeight;
+    //chatbox.scrollTop = chatbox.scrollHeight;
 }
 
 // Add to history
