@@ -62,9 +62,7 @@
             </p>
         </div>
     
-        <!--<input id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.key==='Enter'){ sendMessage(); }">
-        <button onclick="sendMessage()">Send</button>-->
-        <textarea id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.key==='Enter'){ sendMessage(); }"></textarea>
+        <textarea id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.shiftKey && event.key==='Enter'){ sendMessage(); }"></textarea>
         <button onclick="sendMessage()">Send</button>
     
         <div id="chatbox"></div>
