@@ -5,6 +5,9 @@
             body {
                 background-color: darkgray;
             }
+            h1, h2, h3, h4, h5, h6, p {
+                color: white;
+            }
             .user, .bot {
                 margin: 10px;
                 padding: 10px;
@@ -19,12 +22,36 @@
             .bot {
                 color: white;
             }
+            .case {
+                margin: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border:2px solid blue;
+                background-color: gray;
+                color: white;
+            }
+            .myCanvas {
+                width: 10px;
+                height: 10px;
+                border:1px solid #d3d3d3;
+            }
         </style>
     </head>
     <body>
-        <canvas id="myCanvas" width="10" height="10" style="border:1px solid #d3d3d3;">
+        <canvas id="myCanvas">
             Your browser does not support the HTML5 canvas tag.
+            Skill issue.
+            Please use a different browser or update your current browser.
         </canvas>
+
+        <div id="case">
+            <h2>This version of Orion is currently a work in progress.</h2>
+            <p>
+                Please wait a couple of days before having longer conversations,
+                generating images, requesting web searches, asking for tutorials on mcf coding,
+                or starting new topics.
+            </p>
+        </div>
     
         <input id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.key==='Enter'){ sendMessage(); }">
         <button onclick="sendMessage()">Send</button>
