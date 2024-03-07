@@ -86,6 +86,7 @@ window.sendMessage = function() {
         }
     } catch (error) {
         disableChat(true, true, false);
+        
         console.error('Error sending message:', error);
     }
 }
