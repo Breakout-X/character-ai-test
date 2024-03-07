@@ -1,16 +1,16 @@
 /** 
-* How to use badwords.js
+* How to use badWords.js
 * Include the script in your html file:
 *
 * ```index.html
 * <!Doctype html>
 * <html>
 *   <!--head and body code-->
-*   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/libraries/filters/badwords.js" onerror="alert('Failed to fetch badwords.js')"></script>
+*   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/libraries/filters/badWords.js" onerror="alert('Failed to fetch badwords.js')"></script>
 *   <script type="text/javascript" src="your-script.js"></script>
 * </html>
 * ``` 
-* If that link does not work properly, use this one instead: https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/libraries/filters/badwords.js
+* If that link does not work properly, use this one instead: https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/libraries/filters/badWords.js
 *
 * Include one of these in your program:
 *
@@ -53,7 +53,7 @@
 // Don't scroll down
 // Don't scroll down
 
-const swearWords = ['ass ', 'asses', 'bitch', 'bitches', 'btch', 'cuck', 'cock', 'cunt ', 'damn', ' dick ', 'fuck', 'fucker', 'shit', 'shits', 'lmao', 'tf', 'mf'];
+const swearWords = ['ass', 'asses', 'bitch', 'btch', 'cuck', 'cock', 'cunt', 'damn', ' dick ', 'fuck', 'shit', 'lmao', 'tf', 'mf'];
 /**
 * Detects swear words as long as the context matches properly.
 * Notes: DOES NOT DETECT EVERY SWEAR WORD
@@ -68,7 +68,7 @@ const innapropriateWords = ['penis', 'vagina', 'sex', 'gay', 'lesbian'];
 * To detect all sex-related words, include "reallyBadWords" as well
 */
 
-const sensitiveWords = ['genitals', 'genitalia', 'mating', 'pee'];
+const sensitiveWords = ['genitals', 'genitalia', 'mating', 'pee', 'nude', 'ejaculate', 'ejaculation'];
 /**
 * @depreciated
 * Detects sensitive words as long as the context matches properly.
@@ -77,7 +77,7 @@ const sensitiveWords = ['genitals', 'genitalia', 'mating', 'pee'];
 * To detect all sensitive words, use "allBadWords" instead
 */
 
-const reallyBadWords = ['nude', 'porn', 'naked', 'nigger', ' niga ', ' nig ']; 
+const reallyBadWords = ['porn', 'naked', 'nigger', 'niga']; 
 /**
 * Detects innapropriate words and swear words as long as the context matches properly.
 * Notes: DOES NOT DETECT EVERY INNAPROPIATE OR SWEAR WORD
@@ -85,7 +85,7 @@ const reallyBadWords = ['nude', 'porn', 'naked', 'nigger', ' niga ', ' nig '];
 * To detect all innapropriate words, use "allBadWords" instead well
 */
 
-const allBadWords = [' ass ', 'asses', 'bitch', 'bitches', 'btch', 'cuck', 'cock', ' cunt ', 'damn', ' dick ', 'fuck', 'fucker', 'gay', 'lesbian', 'shit', 'shits', 'lmao', 'tf', 'mf', 'penis', 'vagina', 'sex', 'genitals', 'genitalia', 'mating', 'pee', 'nude', 'porn', 'naked', 'nigger', ' niga ', ' nig '];
+const allBadWords = ['ass', 'asses', 'bitch', 'btch', 'cuck', 'cock', ' cunt ', 'damn', 'dick', 'fuck', 'fucker', 'gay', 'lesbian', 'shit', 'lmao', 'tf', 'mf', 'penis', 'vagina', 'sex', 'genitals', 'genitalia', 'mating', 'pee', 'nude', 'porn', 'naked', 'nigger', 'niga'];
 /**
 * @depreciated
 * Context dependent.
