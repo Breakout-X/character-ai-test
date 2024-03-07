@@ -30,7 +30,7 @@
                 border: 2px solid blue;
                 background-color: gray;
                 color: white;
-                position: relative; /* Required for the z-index to work */
+                position: sticky; /* Required for the z-index to work */
                 z-index: 9999; /* 9999 or any high value should work */
             }
             #input {
@@ -50,6 +50,8 @@
                 border-radius: 5px;
                 border: 2px solid white;
                 background-color: lightgreen;
+                position: relative;
+                z-index: 1; /* Lower value to keep it behind */
             }
             .submitButton {
                 width: 80px;
