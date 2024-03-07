@@ -75,14 +75,14 @@ window.sendMessage = function() {
 
             let response = generateResponse(message);
             
-            setTimeout(() => {
-                let badWords = checkForBadWords(message);
-                if (badWords) {
-                    return;
-                }
-                updateChatbox(response, 'bot');
-                //drawBotImage();
-            }, 1000);
+            //setTimeout(() => {
+            let badWords = checkForBadWords(message);
+            if (badWords) {
+                return;
+            }
+            updateChatbox(response, 'bot');
+            //drawBotImage(); // Do not use yet
+            //}, 1000);
         }
     } catch (error) {
         disableChat(true, true, false);
