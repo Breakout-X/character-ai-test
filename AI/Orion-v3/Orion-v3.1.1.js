@@ -72,43 +72,49 @@ try {
     reallyBadWords; // Block these and suspend chat
     allBadWords; // Don't use this unless needed.
 } catch (e) {
-    console.error("Could not load badwords.js content. Replacing with placeholders");
-    console.log("The filters will not function corretly without these. Conversation is therefore disabled.")
+    consLog('error',"Could not load badwords.js content. Replacing with placeholders");
+    consLog('warn',"The filters will not function corretly without badWords.js. Conversation is therefore disabled.")
+    disableChat(true, true, false);
+    updateChatbox('Oops, something went wrong in loading the filters. Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
     swearWords = [];
     innapropriateWords = [];
     sensitiveWords = [];
     reallyBadWords = [];
     allBadWords = [];
-    disableChat(true, true, false);
-    updateChatbox('Oops, something went wrong in loading the filters. Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
 }
 
 // Send Message function
 window.sendMessage = function() {
     try {
-        const message = input.value.trim().toLowerCase() || input.innerText.trim().toLowerCase() || input.textContent.trim().toLowerCase();
-        const originalMessage = input.value || input.innerText || input.textContent;
+        //const message = input.value.trim().toLowerCase();
+        consLog('log', 'Getting message content...');
+        const message = input.innerText.trim().toLowerCase();
+        const originalMessage = input.innerText;
 
+        consLog('log',`Sending message...`);
         // Will only send message if message is not blank.
-        console.log(`Sent message: "${message}"`);
         if(message !== '') {
-            console.log('Message is not empty');
             // Send user message
             updateChatbox(originalMessage, 'user');
+            consLog('log',`Message successfully sent. Message: "${originalMessage}"`);
 
             let response = '';
-
+            let badWords = checkForBadWords(message);
+            
             // Wait to send bot message
             setTimeout(() => {
                 // Check for bad words
+                consLog('log','Processing message...')
                 let badWords = checkForBadWords(message);
-                console.log('Message contains bad words? ', badWords);
+                console.log()
                 if (badWords) { 
                     //If it caught a bad word, the function returns immediatly
+                    consLog('error', `Refused to generate response. Variable "badWords" should return boolian false, not ${badWords}.`);
                     return;
                 }
 
                 // Generate bot response
+                consLog('log', 'Generating response...');
                 response = generateResponse(message);
 
                 // Send bot message
@@ -118,13 +124,14 @@ window.sendMessage = function() {
 
             // Clear the input field
             input.value = '';
+        } else {
+            consLog('warn', 'Cannot send message with empty value.')
         }
     } catch (error) {
-        // Disables chat due to error
+        // Disables chat due to error, Logs error and send a message of the error
         disableChat(true, true, false);
-        // Logs error and send a message of the error
         updateChatbox(`Error sending message: ${error} Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.`, 'bot');
-        console.error('Error sending message:', error);
+        consLog('error', 'Error sending message:', error);
     }
 }
 
@@ -134,6 +141,21 @@ function disableChat(boolian1, boolian2, boolian3) {
     errorDisable = boolian2; // Disabling chat and enabling this results in... well, an error.
     responseLimitReached = boolian3; // Disabling chat and enabling this results in you not being able to chat anymore until next day.
     // You are REQUIRED to disable chat before running the other boolians.
+}
+
+// Easier way to log console
+window.consLog = function(type, message) {
+    if (type === 'log') {
+        console.log(message);
+    } else if (type === 'warn') {
+        console.warn(message);
+    } else if (type === 'error') {
+        console.error(message);
+    } else if (type === 'table') {
+        console.table(message);
+    } else {
+        console.log('Type of log unknown: ' + message);
+    }
 }
 
 // Function that checks for bad words.
@@ -147,34 +169,30 @@ function checkForBadWords(message) {
             updateChatbox(`Error: Exception FFI${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
             updateChatbox('Invalid filter settings', 'bot');
             disableChat(true, true, false);
-            console.error(`Error: Exception FFI${date} occurred.`);
+            consLog('error',`Error: Exception FFI${date} occurred.`);
             return true;
         }
 
         // Checks your message for swear words.
         if(filter > 0 && swearWords.some(word => message.includes(word))) {
-            updateChatbox('', 'user');
             updateChatbox('Hmm, something went wrong. Shall we move on to a different topic?', 'bot');
             return true;
         }
 
         // Checks your message for sex-related innapropriate words.
         if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
-            updateChatbox('', 'user');
             updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over?', 'bot');
             return true;
         }
 
         // If restricted mode is enabled and filter is greater than 2, sensitive words are disabled.
         if(filter > 2 && sensitiveWords.some(word => message.includes(word))) {
-            updateChatbox('', 'user');
             updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic?', 'bot');
             return true;
         }
 
         // This blocks really bad words, including racist words.
         if(reallyBadWords.some(word => message.includes(word))) {
-            updateChatbox('', 'user');
             updateChatbox('Hmm, this content is Blocked. It seems you are in direct violation of the TERMS and RULES. You have been suspended from the chat area. If this was an error, please contact Breakout-X.', 'bot');
             disableChat(true, false, false);
             return true;
@@ -183,33 +201,36 @@ function checkForBadWords(message) {
         // Checks his message
         if (previousResponse !== '') {
             // If he said a swear word, it throws a error.
-            if(swearWords.some(word => message.includes(word))) {
-                updateChatbox('', 'user');
+            if(swearWords.some(word => previousResponse.includes(word))) {
                 updateChatbox('Hmm, that was embarrasing, somehow, I said a swear word. To prevent further inconviences, I\'m going to temporarily disable the chat', 'bot');
                 updateChatbox(`Error: Exception DSW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
                 disableChat(true, true, false);
-                console.error(`Error: Exception DSW0B${date} occurred,.`);
+                consLog('error',`Error: Exception DSW0B${date} occurred,.`);
                 return true;
             }
 
             // If he said an innapropriate word, he shrugs it off since the 
             // innapropriateWords value isn't the same as reallyBadWords because
             // the innapropriateWords is different.
-            if(filter > 1 && innapropriateWords.some(word => message.includes(word))) {
-                updateChatbox('', 'user');
+            if(filter > 1 && innapropriateWords.some(word => previousResponse.includes(word))) {
                 updateChatbox('I\'t seems I made a mistake bypassing the filters. Since this was my mistake, I won\'t punish you. We\'ll keep talking about it.', 'bot');
-                console.error(`Error: Exceptioon DIW0B${date} occurred.`);
-                console.log('Error bypassed.')
-                filter = 1; // Lowers filter to prevent cycling.
-                // Does not return because you didn't say it. 
+                consLog('error',`Error: Exceptioon DIW0B${date} occurred.`);
+                if (!restrictedMode) {
+                    // Does not return because you didn't say it. 
+                    filter = 1; // Lowers filter to prevent cycling.
+                    consLog('log','Error bypassed.');
+                } else {
+                    disableChat(true, true, false);
+                    return true;
+                }
             }
 
             // If he says a really bad word somehow, he just returns an error.
-            if(reallyBadWords.some(word => message.includes(word))) {
+            if(reallyBadWords.some(word => previousResponse.includes(word))) {
                 updateChatbox('', 'user');
                 updateChatbox(`Error: Exception DRBW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
                 disableChat(true, true, false);
-                console.error(`Error: Exception DRBW0B${date} occurred.`)
+                consLog('error', `Error: Exception DRBW0B${date} occurred.`)
                 // This could only be the user's fault. That's why this one disables.
                 return true;
             }
@@ -217,7 +238,7 @@ function checkForBadWords(message) {
         }
         return false; // You passed the test
     } catch(error) {
-        console.error(`Error: ${error} occurred.`)
+        consLog('log', `Error: ${error} occurred.`)
         return true;
     }
 }
@@ -235,7 +256,7 @@ function generateResponse(message) {
         if (chatDisabled) {
             if (errorDisable) {
                 response = "Chat is currently disabled due to an error. Please refresh the page before chatting again. If the issue persists, please contact Breakout-X.";
-                console.error("Chat disabled due to error");
+                consLog('error', "Chat disabled due to error");
             } else if (responseLimitReached) {
                 // Disables chat due to long conversation.
                 response = "It seems our conversation has ended. Let's move on to a new topic.";
@@ -329,6 +350,7 @@ function generateResponse(message) {
                 Your character: "${characterName}" likes ${likes} and dislikes ${hates}. 
                 Your character sounds intersting.`
             ];
+            consLog('warn', 'This function may not work as intended.');
             let randomIndex = Math.floor(Math.random() * responses.length);
             let randomResponse = responses[randomIndex];
             response = randomResponse;
@@ -341,6 +363,7 @@ function generateResponse(message) {
         addToHistory(`You sent: ${previousMessage}`,`Orion sent: ${previousResponse}`);
     } catch(error) {
         response = `Error: ${error} occurred during message sending.`;
+        consLog('error', response);
     }
     return response;
 }
