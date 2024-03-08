@@ -88,8 +88,9 @@ window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
         // Will only send message if message is not blank.
+        console.log(`Sent message: "${message}"`);
         if(message !== '') {
-
+            console.log('Message is not empty');
             // Send user message
             updateChatbox(input.value, 'user');
 
@@ -99,6 +100,7 @@ window.sendMessage = function() {
             setTimeout(() => {
                 // Check for bad words
                 let badWords = checkForBadWords(message);
+                console.log('Message contains bad words? ', badWords);
                 if (badWords) { 
                     //If it caught a bad word, the function returns immediatly
                     return;
