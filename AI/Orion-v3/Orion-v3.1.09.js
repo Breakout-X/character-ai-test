@@ -87,12 +87,13 @@ try {
 window.sendMessage = function() {
     try {
         const message = input.value.trim().toLowerCase();
+        const originalMessage = input.value;
         // Will only send message if message is not blank.
         console.log(`Sent message: "${message}"`);
-        if(message !== '') {
+        if(originalMessage !== '') {
             console.log('Message is not empty');
             // Send user message
-            updateChatbox(input.value, 'user');
+            updateChatbox(originalMessage, 'user');
 
             let response = '';
 
