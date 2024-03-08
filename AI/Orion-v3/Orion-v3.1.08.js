@@ -211,8 +211,9 @@ function checkForBadWords(message) {
                 // This could only be the user's fault. That's why this one disables.
                 return true;
             }
-        return false;
+            return false;
         }
+        return false; // You passed the test
     } catch(error) {
         console.error(`Error: ${error} occurred.`)
         return true;
