@@ -88,6 +88,7 @@ window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
         var input = document.getElementById('input');
+        var originalMessage = input.value;
         var message = input.value.toLowerCase();
         var messageTrimmed = input.value.trim().toLowerCase();
         var messageText = input.innerText.trim().toLowerCase();
