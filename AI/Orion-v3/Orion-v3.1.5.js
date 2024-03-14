@@ -90,7 +90,7 @@ window.sendMessage = function() {
         const originalMessage = input.value;
         const message = input.value.toLowerCase();
         const messageTrimmed = input.value.trim().toLowerCase();
-        //const messageValue = input.value.trim().toLowerCase();
+        const messageText = input.innerText.trim().toLowerCase();
         consLog('log',`Sending message...`);
         // Will only send message if message is not blank.
         if(message !== '') {
@@ -103,9 +103,8 @@ window.sendMessage = function() {
             
             // Wait to send bot message
             setTimeout(() => {
-                // Check for bad words
                 consLog('log','Processing message...')
-                let badWords = checkForBadWords(message);
+                let badWords = checkForBadWords(message); // Check for bad words
                 console.log()
                 if (badWords) { 
                     //If it caught a bad word, the function returns immediatly
@@ -113,17 +112,21 @@ window.sendMessage = function() {
                     return;
                 }
 
-                // Generate bot response
                 consLog('log', 'Generating response...');
-                response = generateResponse(message);
+                response = generateResponse(message); // Generate bot response
 
-                // Send bot message
-                updateChatbox(response, 'bot');
+                
+                updateChatbox(response, 'bot'); // Send bot message
                 //drawBotImage(); // Do not use yet
             }, 1000);
 
             // Clear the input field
             input.value = '';
+            var event = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+            input.dispatchEvent(event); // manually trigger input event
         } else {
             consLog('warn', 'Cannot send message with empty value.')
         }
