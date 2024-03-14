@@ -100,7 +100,8 @@
     
     <script type="text/javascript">
         document.getElementById('editable').addEventListener('input', function() {
-          document.getElementById('input').value = this.innerText;
+            document.getElementById('input').value = this.innerText;
+            console.log("Text: " + this.innerText);
         });
     </script>
 </html>
