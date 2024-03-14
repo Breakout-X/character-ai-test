@@ -91,7 +91,7 @@ window.sendMessage = function() {
         const message = input.value.toLowerCase();
         const messageTrimmed = input.value.trim().toLowerCase();
         const messageText = input.innerText.trim().toLowerCase();
-        consLog('log',`Sending message...`);
+        consLog('log',`Sending message "${originalMessage}"...`);
         // Will only send message if message is not blank.
         if(message !== '') {
             // Send user message
