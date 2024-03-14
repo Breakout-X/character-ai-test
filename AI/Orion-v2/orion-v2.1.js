@@ -57,10 +57,6 @@ window.sendMessage = function() {
 
             let response = generateResponse(message);
 
-            updateChatbox(input.value, 'user');
-
-            let response = generateResponse(message);
-
             setTimeout(() => {
                 updateChatbox(response, 'bot');
                 //drawBotImage();
