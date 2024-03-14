@@ -88,12 +88,19 @@
         </div>
     
         <div id="chatbox">
-            <textarea id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.shiftKey && event.key==='Enter'){ sendMessage(); }"></textarea>
+            <div id="editable" contentEditable="true" style="border: 1px solid black; width: 200px; height: 100px;"></div>
+            <input type="hidden" id="input" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.shiftKey && event.key==='Enter'){ sendMessage(); }"></textarea>
             <button class="submitButton" onclick="sendMessage()">Send</button>
         </div>
     </body>
-    <!--The scripts only work if linked with the full url-->
+    <!--Local scripts only work if linked with the full url-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/libraries/filters/badWords.js" onerror="alert('An unknown error occured in loading the filters. Please refresh the page and try again.')"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/AI/Orion-v3/Orion-responses.js" onerror="alert('An unknown error occured in loading the reponse generator. Please refresh the page and try again.')"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/AI/Orion-v3/Orion-v3.2.0.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
+    
+    <script type="text/javascript">
+        document.getElementById('editable').addEventListener('input', function() {
+          document.getElementById('input').value = this.innerText;
+        });
+    </script>
 </html>
