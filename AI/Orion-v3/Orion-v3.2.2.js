@@ -25,7 +25,7 @@ var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-ta
 const c = document.getElementById("myCanvas"); // Ignore this
 const ctx = c.getContext("2d"); // Ignore
 const chatbox = document.getElementById('chatbox'); // This is the chatbox
-const input = document.getElementById('input'); // This is the textarea for the chatbox
+var input = document.getElementById('input'); // This is the textarea for the chatbox
 var chatDisabled = false; // Default value 
 var conversationHistory = []; // Idk how to use this yet.
 var errorDisable = false; // Only enabled on error
@@ -87,7 +87,7 @@ try {
 window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
-        var originalMessage = input.value;
+        var input = document.getElementById('input');
         var message = input.value.toLowerCase();
         var messageTrimmed = input.value.trim().toLowerCase();
         var messageText = input.innerText.trim().toLowerCase();
