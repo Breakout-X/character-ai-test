@@ -87,16 +87,10 @@ try {
 window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
-        const originalMessage = input.textContent || input.innerText;
-        const message = (input.textContent || input.innerText).toLowerCase();
-        const messageTrimmed = (input.textContent || input.innerText).trim().toLowerCase();
-        const messageText = input.innerText.trim().toLowerCase();
-        /*
         const originalMessage = input.value;
         const message = input.value.toLowerCase();
         const messageTrimmed = input.value.trim().toLowerCase();
         const messageText = input.innerText.trim().toLowerCase();
-        */
         consLog('log',`Sending message...`);
         // Will only send message if message is not blank.
         if(message !== '') {
@@ -127,12 +121,7 @@ window.sendMessage = function() {
             }, 1000);
 
             // Clear the input field
-            input.value = '';
-            var event = new Event('input', {
-                bubbles: true,
-                cancelable: true,
-            });
-            input.dispatchEvent(event); // manually trigger input event
+            input.textContent = '';
         } else {
             consLog('warn', 'Cannot send message with empty value.')
         }
