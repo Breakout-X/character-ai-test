@@ -121,7 +121,7 @@ window.sendMessage = function() {
             }, 1000);
 
             // Clear the input field
-            input.textContent = '';
+            input.value = '';
         } else {
             consLog('warn', 'Cannot send message with empty value.')
         }
