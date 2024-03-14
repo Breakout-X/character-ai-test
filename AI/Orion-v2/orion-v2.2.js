@@ -70,20 +70,28 @@ window.sendMessage = function() {
 function generateResponse(message) {
     let response = '';
     if (chatDisabled) {
-        let responses = ["Chat is currently disabled due to suspension. Wait a couple minutes before chatting again.", "Chat is still disabled. Keep waiting...", "Why are you still here?"];
+        let responses = [
+            "Chat is currently disabled due to suspension. Wait a couple minutes before chatting again.",
+            "Chat is still disabled. Keep waiting...",
+            "Why are you still here?"
+        ];
         let randomIndex = Math.floor(Math.random() * responses.length);
         let randomResponse = responses[randomIndex];
-        let response = randomResponse;
+        response = randomResponse;
     } else if(message === 'hi' || message === 'hello' || message === 'helo' || message === 'good morning' || message === 'good evening' || message === 'hoi') {
         //picks random between responses
-        let responses = ["Response 1", "Response 2", "Response 3"];
+        let responses = [
+            "Hello",
+            "Hi",
+            "Hoi"
+        ];
         let randomIndex = Math.floor(Math.random() * responses.length);
         let randomResponse = responses[randomIndex];
-        let response = randomResponse;
+        response = randomResponse;
     } else if(message === 'describe yourself') {
-        response = 'Ok! Sure! My name is Orion the Power Rabbit. I currently live in the Endless Forest. My mate is Luna the Power Rabbit. I love marking my territory and mating with Luna. I like to eat meat and sleep. I hate betrayals. It\'s a pleasure to meet you.';
+        response = 'Describing myself in version 2.0 is futile. Try version 3.0 and try this command.';
     } else if(message === 'describe eledlow the fox') {
-        response = 'ELedlow is a clever and cunning fox known for his brown fur with a tan belly. He loves exploring the forest and marking his territory, and he loves eating meat. He doesn\'t care about loud noises, but he doesn\'t like symmetry as it freaks him out.';
+        response = 'Describing ELedlow the fox in version 2.0 is futile. Try version 3.0 and try this command.';
     } else if(message.startsWith('describe my character:')) {
         const characterDetails = message.split(':')[1].split(' ');
         const characterName = characterDetails[0];
@@ -93,9 +101,9 @@ function generateResponse(message) {
         const color2 = characterDetails[10];
         const likes = characterDetails[13];
         const hates = characterDetails[15];
-        response = `Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. ${characterName} likes ${likes} and hates ${hates}. Your character sounds facinating.`;
+        response = `Please note that tis is version 2.0, therefore this may not work as intended. Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. ${characterName} likes ${likes} and hates ${hates}. Your character sounds facinating.`;
     } else {
-        response = 'I am sorry, I didn\'t understand that.';
+        response = 'I am sorry, I didn\'t understand that. Try using this command in version 3.0';
     }
     return response;
 }
