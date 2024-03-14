@@ -87,10 +87,16 @@ try {
 window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
+        const originalMessage = input.textContent || input.innerText;
+        const message = (input.textContent || input.innerText).toLowerCase();
+        const messageTrimmed = (input.textContent || input.innerText).trim().toLowerCase();
+        const messageText = input.innerText.trim().toLowerCase();
+        /*
         const originalMessage = input.value;
         const message = input.value.toLowerCase();
         const messageTrimmed = input.value.trim().toLowerCase();
         const messageText = input.innerText.trim().toLowerCase();
+        */
         consLog('log',`Sending message...`);
         // Will only send message if message is not blank.
         if(message !== '') {
