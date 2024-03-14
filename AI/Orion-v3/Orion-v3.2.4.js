@@ -88,11 +88,14 @@ window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
         var input = document.getElementById('input');
+        var editable = document.getElementById('editable');
+
         var originalMessage = input.value;
         var message = input.value.toLowerCase();
         var messageTrimmed = input.value.trim().toLowerCase();
         var messageText = input.innerText.trim().toLowerCase();
         consLog('log',`Sending message "${originalMessage}"...`);
+        
         // Will only send message if message is not blank.
         if(message !== '') {
             // Send user message
@@ -122,7 +125,8 @@ window.sendMessage = function() {
             }, 1000);
 
             // Clear the input field
-            //input.value = '';
+            editable.innerText = '';
+            input.value = '';
         } else {
             consLog('warn', 'Cannot send message with empty value.')
         }
@@ -372,7 +376,6 @@ function updateChatbox(message, sender) {
     // Send the message
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
     chatbox.scrollTop = chatbox.scrollHeight;
-    input.value = '';
 }
 
 // Add to history
