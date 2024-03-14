@@ -87,10 +87,10 @@ try {
 window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
-        const originalMessage = input.value;
-        const message = input.value.toLowerCase();
-        const messageTrimmed = input.value.trim().toLowerCase();
-        const messageText = input.innerText.trim().toLowerCase();
+        var originalMessage = input.value;
+        var message = input.value.toLowerCase();
+        var messageTrimmed = input.value.trim().toLowerCase();
+        var messageText = input.innerText.trim().toLowerCase();
         consLog('log',`Sending message "${originalMessage}"...`);
         // Will only send message if message is not blank.
         if(message !== '') {
@@ -370,7 +370,8 @@ function generateResponse(message) {
 function updateChatbox(message, sender) {
     // Send the message
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
-    //chatbox.scrollTop = chatbox.scrollHeight;
+    chatbox.scrollTop = chatbox.scrollHeight;
+    input.value = '';
 }
 
 // Add to history
