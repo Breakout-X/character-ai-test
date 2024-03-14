@@ -25,7 +25,7 @@ var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-ta
 const c = document.getElementById("myCanvas"); // Ignore this
 const ctx = c.getContext("2d"); // Ignore
 const chatbox = document.getElementById('chatbox'); // This is the chatbox
-const input = document.getElementById('input'); // This is the input for the chatbox
+const input = document.getElementById('input'); // This is the textarea for the chatbox
 var chatDisabled = false; // Default value 
 var conversationHistory = []; // Idk how to use this yet.
 var errorDisable = false; // Only enabled on error
@@ -86,11 +86,11 @@ try {
 // Send Message function
 window.sendMessage = function() {
     try {
-        //const message = input.value.trim().toLowerCase();
         consLog('log', 'Getting message content...');
-        const message = input.innerText.trim().toLowerCase();
         const originalMessage = input.innerText;
-
+        const message = input.innerText.toLowerCase();
+        const messageTrimmed = input.innerText.trim().toLowerCase();
+        const messageValue = input.value.trim().toLowerCase();
         consLog('log',`Sending message...`);
         // Will only send message if message is not blank.
         if(message !== '') {
