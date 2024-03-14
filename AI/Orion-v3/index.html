@@ -34,6 +34,12 @@
                 z-index: 9999; /* 9999 or any high value should work */
             }
             #input {
+                width: 0px;
+                height: 0px;
+                background-color: black;
+                color: black;
+            }
+            #editable {
                 width: 600px;
                 height: 60px;
                 margin: 10px;
@@ -88,8 +94,8 @@
         </div>
     
         <div id="chatbox">
-            <div id="editable" contentEditable="true" style="border: 1px solid black; width: 200px; height: 100px;"></div>
-            <input type="hidden" id="input" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.shiftKey && event.key==='Enter'){ sendMessage(); }"></textarea>
+            <div id="editable" contentEditable="true" style="border: 1px solid black; width: 200px; height: 100px;" onkeydown="if(event.shiftKey && event.key==='Enter'){ event.preventDefault(); sendMessage(); }"></div>
+            <input type="hidden" id="input" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')">
             <button class="submitButton" onclick="sendMessage()">Send</button>
         </div>
     </body>
