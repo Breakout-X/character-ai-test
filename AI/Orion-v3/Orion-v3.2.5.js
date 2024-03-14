@@ -22,13 +22,14 @@ var OrionImages = ["Orion-the-male-rabbit-talk-1.png", "Orion-the-male-rabbit-ta
 */
 
 // Variable declarations
-const c = document.getElementById("myCanvas"); // Ignore this
-const ctx = c.getContext("2d"); // Ignore
-const chatbox = document.getElementById('chatbox'); // This is the chatbox
+var c = document.getElementById("myCanvas"); // Ignore this
+var ctx = c.getContext("2d"); // Ignore
+var chatbox = document.getElementById('chatbox'); // This is the chatbox
 var input = document.getElementById('input'); // This is the textarea for the chatbox
 var chatDisabled = false; // Default value 
 var conversationHistory = []; // Idk how to use this yet.
 var errorDisable = false; // Only enabled on error
+var editable = document.getElementById('editable');
 var filter = 2; // Default value
 var previousMessage = ""; // Default is empty
 var previousResponse = ""; // Default is empty
@@ -87,14 +88,13 @@ try {
 window.sendMessage = function() {
     try {
         consLog('log', 'Getting message content...');
-        var input = document.getElementById('input');
-        var editable = document.getElementById('editable');
 
         var originalMessage = input.value;
         var message = input.value.toLowerCase();
         var messageTrimmed = input.value.trim().toLowerCase();
         var messageText = input.innerText.trim().toLowerCase();
-        consLog('log',`Sending message "${originalMessage}"...`);
+
+        consLog('log',`Sending message: "${originalMessage}"...`);
         
         // Will only send message if message is not blank.
         if(message !== '') {
@@ -103,7 +103,6 @@ window.sendMessage = function() {
             consLog('log',`Message successfully sent. Message: "${originalMessage}"`);
 
             let response = '';
-            let badWords = checkForBadWords(message);
             
             // Wait to send bot message
             setTimeout(() => {
