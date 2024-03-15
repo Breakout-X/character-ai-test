@@ -11,8 +11,8 @@ V3 was remade due to an uncaught annoying bug.
 */
 
 // Variables and constants
-const chatbox = document.getElementById('chatbox');
-const input = document.getElementById('input');
+var chatbox = document.getElementById('chatbox');
+var input = document.getElementById('input');
 
 // Variable arrays
 const account = {
@@ -84,8 +84,10 @@ try {
 window.sendMessage = function() {
     try {
         console.log(`Here we go again...`);
-        const message = input.value.trim().toLowerCase();
-        const originalMessage = input.value;
+        chatbox = document.getElementById('chatbox');
+        input = document.getElementById('input');
+        var message = input.value.trim().toLowerCase();
+        var originalMessage = input.value;
         
         if (chat.disabled) {
             if (responseTotal > responseLimit) {
