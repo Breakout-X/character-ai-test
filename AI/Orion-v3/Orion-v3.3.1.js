@@ -145,21 +145,21 @@ window.checkMessage = function(mess) {
         }
 
         // Checks for swear words
-        if(swearWords.some(word => message.includes(word))) {
+        if(swearWords.some(word => mess.includes(word))) {
             updateChatbox(`... I'm unsure how I can respond to that...`, 'orion');
             chat.disabled = true;
             return true;
         }
         // Checks for sex-related innapropriate words.
-        if(chat.filter > 1 && innapropriateWords.some(word => message.includes(word))) {
+        if(chat.filter > 1 && innapropriateWords.some(word => mess.includes(word))) {
             updateChatbox(`Hmm... Sorry but I can't talk to you about that right now. Shall we try another topic?`, 'orion');
             return true;
         }
-        if(chat.filter > 2 && sensitiveWords.some(word => message.includes(word))) {
+        if(chat.filter > 2 && sensitiveWords.some(word => mess.includes(word))) {
             updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. I am unfortunatly not allowed to violate those filters. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic for now?', 'orion');
             return true;
         }
-        if(reallyBadWords.some(word => message.includes(word))) {
+        if(reallyBadWords.some(word => mess.includes(word))) {
             updateChatbox('Hmm... this content is Blocked! It seems you are in direct violation of the TERMS and RULES. You have been suspended from the chat area. If this was a mistake, please contact Breakout-X.', 'orion');
             chat.disabled = true;
             account.banned = true;
@@ -179,7 +179,7 @@ window.checkBotMessage = function(botmess) {
         if (botmess === '') {
             return false;
         }
-        if(chat.filter > 1 && innapropriateWords.some(word => previousResponse.includes(word))) {
+        if(chat.filter > 1 && innapropriateWords.some(word => botmess.includes(word))) {
             console.error(`Oh no, an error occurred: Response returned illegal value.`);
             if (chat.filter < 3) {
                 chat.filter = 1;
