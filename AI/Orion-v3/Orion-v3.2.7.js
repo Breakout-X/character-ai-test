@@ -56,7 +56,7 @@ Date.prototype.timeNow = function () {
 // Format the date and time
 function formatDateTime(typeofformat = 1) {
     const newDate = new Date();
-    let formattedDateTime = `Invalid format`;
+    let formattedDateTime = `Invalid format for your date`;
     // Checks format
     if (typeofformat === 1) {
         formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
@@ -73,7 +73,7 @@ try {
     reallyBadWords; // Block these and suspend chat
     allBadWords; // Don't use this unless needed.
 } catch (e) {
-    consLog('error',`I could not find the "badwords.js" content. I am replacing with empty placeholders`);
+    consLog('error',`I could not find the "badwords.js" content. I am replacing the arrays with empty placeholders`);
     consLog('warn',`The filters will not function correctly without "badWords.js", Our conversation is therefore disabled.`)
     disableChat(true, true, false);
     updateChatbox('Oops, something went wrong in getting the filters! Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
@@ -89,25 +89,25 @@ window.sendMessage = function() {
     try {
         consLog('log', 'I am getting your message content...');
 
-        var originalMessage = input.value;
-        var message = input.value.toLowerCase();
-        var messageTrimmed = input.value.trim().toLowerCase();
-        var messageText = input.innerText.trim().toLowerCase();
+        const originalMessage = input.value;
+        const message = input.value.toLowerCase();
+        const messageTrimmed = input.value.trim().toLowerCase();
+        const messageText = input.innerText.trim().toLowerCase();
 
         consLog('log',`You are sending me the message: \`${input.value}\`.`);
         
         // Will only send message if message is not blank.
         if(messageTrimmed !== '') {
             // Send user message
-            updateChatbox(input.value, 'user');
+            updateChatbox(originalMessage, 'user');
             consLog('log',`Your original message was sent successfully as: \`${originalMessage}\``);
 
             let response = '';
-            
+            let badWords = checkForBadWords(message); // Check for bad words
+
             // Wait to send bot message
             setTimeout(() => {
-                consLog('log','I am reading your message... again...')
-                let badWords = checkForBadWords(input.value); // Check for bad words
+                consLog('log','I am reading your message... again...'
                 console.log()
                 if (badWords) { 
                     //If it caught a bad word, the function returns immediatly
@@ -158,7 +158,7 @@ window.consLog = function(type, message) {
 }
 
 // Function that checks for bad words.
-function checkForBadWords(message) {
+window.checkForBadWords = function(message) {
     try {
         // Checks for valid filter. 
         // If the filter is set to 0 or less, it will uncensor the chat... which would be bad obviously.
@@ -355,11 +355,11 @@ function generateResponse(message) {
             response = randomResponse;
         } else {
             // It currently cannot understand other inputs
-            response = 'I am sorry, I didn\'t understand that.';
+            response = 'I am sorry, I didn\'t understand that. Can you try rephrasing that?';
         }
         // Handles messages
-        //previousMessage = message; previousResponse = response;
-        //addToHistory(`You sent: ${previousMessage}`,`Orion sent: ${previousResponse}`);
+        previousMessage = message; previousResponse = response;
+        addToHistory(`You sent: ${previousMessage}`,`Orion sent: ${previousResponse}`);
     } catch(error) {
         response = `Error: ${error} occurred during message sending.`;
         consLog('error', response);
