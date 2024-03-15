@@ -75,17 +75,20 @@ try {
 // Send Message function
 window.sendMessage = function() {
     try {
+        console.log(`Here we go again...`);
+        const message = input.value.trim().toLowerCase();
+        const originalMessage = input.value;
+        
         if (chat.disabled) {
-            console.log(`The chat is disabled. Wait 5 minuts before chatting again.`);
+            console.log(`The chat is disabled. Wait 5 minutes before chatting again.`);
             input.disabled = true;
             setTimeout(function() {
                 input.disabled = false;
             }, 5 * 60 * 1000); // 5 minutes
         }
-        console.log(`Here we go again...`);
-        const message = input.value.trim().toLowerCase();
+        
         if(message !== '') {
-            updateChatbox(input.value, 'user');
+            updateChatbox(originalMessage, 'user');
             console.log(`Your original message was sent successfully as: "${originalMessage}".`);
 
             let response = '';
