@@ -73,10 +73,10 @@ try {
     reallyBadWords; // Block these and suspend chat
     allBadWords; // Don't use this unless needed.
 } catch (e) {
-    consLog('error',"Could not load badwords.js content. Replacing with placeholders");
-    consLog('warn',"The filters will not function corretly without badWords.js. Conversation is therefore disabled.")
+    consLog('error',`I could not find the "badwords.js" content. I am replacing with empty placeholders`);
+    consLog('warn',`The filters will not function correctly without "badWords.js", Our conversation is therefore disabled.`)
     disableChat(true, true, false);
-    updateChatbox('Oops, something went wrong in loading the filters. Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
+    updateChatbox('Oops, something went wrong in getting the filters! Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
     swearWords = [];
     innapropriateWords = [];
     sensitiveWords = [];
@@ -87,53 +87,50 @@ try {
 // Send Message function
 window.sendMessage = function() {
     try {
-        consLog('log', 'Getting message content...');
+        consLog('log', 'I am getting your message content...');
 
         var originalMessage = input.value;
         var message = input.value.toLowerCase();
         var messageTrimmed = input.value.trim().toLowerCase();
         var messageText = input.innerText.trim().toLowerCase();
 
-        consLog('log',`Sending message: "${originalMessage}"...`);
+        consLog('log',`You are sending me the message: \`${input.value}\`.`);
         
         // Will only send message if message is not blank.
-        if(message !== '') {
+        if(messageTrimmed !== '') {
             // Send user message
-            updateChatbox(originalMessage, 'user');
-            consLog('log',`Message successfully sent. Message: "${originalMessage}"`);
+            updateChatbox(input.value, 'user');
+            consLog('log',`Your original message was sent successfully as: \`${originalMessage}\``);
 
             let response = '';
             
             // Wait to send bot message
             setTimeout(() => {
-                consLog('log','Processing message...')
-                let badWords = checkForBadWords(message); // Check for bad words
+                consLog('log','I am reading your message... again...')
+                let badWords = checkForBadWords(input.value); // Check for bad words
                 console.log()
                 if (badWords) { 
                     //If it caught a bad word, the function returns immediatly
-                    consLog('error', `Refused to generate response. Variable "badWords" should return boolian false, not ${badWords}.`);
+                    consLog('error', `I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${badWords}.`);
                     return;
                 }
 
-                consLog('log', 'Generating response...');
+                consLog('log', 'I am writing my response...');
                 response = generateResponse(message); // Generate bot response
+                consLog('log', `If you can't see it, my response is: \`${response}\`.`);
 
                 
                 updateChatbox(response, 'bot'); // Send bot message
                 //drawBotImage(); // Do not use yet
             }, 1000);
-
-            // Clear the input field
-            editable.innerText = '';
-            input.value = '';
         } else {
-            consLog('warn', 'Cannot send message with empty value.')
+            consLog('warn', 'You cannot send message with empty value. Plus, how would I respond to that?')
         }
     } catch (error) {
         // Disables chat due to error, Logs error and send a message of the error
         disableChat(true, true, false);
-        updateChatbox(`Error sending message: ${error} Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.`, 'bot');
-        consLog('error', 'Error sending message:', error);
+        updateChatbox(`There was an error sending your message: ${error} Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.`, 'bot');
+        consLog('error', `There was an error sending your message: ${error}`);
     }
 }
 
@@ -156,7 +153,7 @@ window.consLog = function(type, message) {
     } else if (type === 'table') {
         console.table(message);
     } else {
-        console.log('Type of log unknown: ' + message);
+        console.log(`This type of log is unknown in the "consLog" function. The log is: \`${message}\`.`);
     }
 }
 
@@ -168,16 +165,16 @@ function checkForBadWords(message) {
         let date = formatDateTime(1);
         if(filter < 1) {
             updateChatbox('', 'user');
-            updateChatbox(`Error: Exception FFI${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
-            updateChatbox('Invalid filter settings', 'bot');
+            updateChatbox(`The error: Exception FFI${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
+            updateChatbox('Your filter settings are invalid.', 'bot');
             disableChat(true, true, false);
-            consLog('error',`Error: Exception FFI${date} occurred.`);
+            consLog('error',`The error: Exception FFI${date} occurred.`);
             return true;
         }
 
         // Checks your message for swear words.
         if(filter > 0 && swearWords.some(word => message.includes(word))) {
-            updateChatbox('Hmm, something went wrong. Shall we move on to a different topic?', 'bot');
+            updateChatbox(`Hmm, something went wrong. I'm unsure how I can respond to that topic. Shall we try anoth`, 'bot');
             return true;
         }
 
@@ -189,7 +186,7 @@ function checkForBadWords(message) {
 
         // If restricted mode is enabled and filter is greater than 2, sensitive words are disabled.
         if(filter > 2 && sensitiveWords.some(word => message.includes(word))) {
-            updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic?', 'bot');
+            updateChatbox('Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. I am unfortunatly not allowed to violate those filters. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic for now?', 'bot');
             return true;
         }
 
@@ -205,9 +202,9 @@ function checkForBadWords(message) {
             // If he said a swear word, it throws a error.
             if(swearWords.some(word => previousResponse.includes(word))) {
                 updateChatbox('Hmm, that was embarrasing, somehow, I said a swear word. To prevent further inconviences, I\'m going to temporarily disable the chat', 'bot');
-                updateChatbox(`Error: Exception DSW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
+                updateChatbox(`An error occurred: Exception DSW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
                 disableChat(true, true, false);
-                consLog('error',`Error: Exception DSW0B${date} occurred,.`);
+                consLog('error',`Another error: Exception DSW0B${date} occurred,.`);
                 return true;
             }
 
@@ -215,12 +212,12 @@ function checkForBadWords(message) {
             // innapropriateWords value isn't the same as reallyBadWords because
             // the innapropriateWords is different.
             if(filter > 1 && innapropriateWords.some(word => previousResponse.includes(word))) {
-                updateChatbox('I\'t seems I made a mistake bypassing the filters. Since this was my mistake, I won\'t punish you. We\'ll keep talking about it.', 'bot');
-                consLog('error',`Error: Exceptioon DIW0B${date} occurred.`);
+                updateChatbox(`I't seems I made a mistake bypassing the filters. Since this was my mistake, I won't punish you. We'll keep talking about it.`, 'bot');
+                consLog('error',`The error: Exceptioon DIW0B${date} occurred.`);
                 if (!restrictedMode) {
                     // Does not return because you didn't say it. 
                     filter = 1; // Lowers filter to prevent cycling.
-                    consLog('log','Error bypassed.');
+                    consLog('log','Error bypassed by me.');
                 } else {
                     disableChat(true, true, false);
                     return true;
@@ -230,9 +227,9 @@ function checkForBadWords(message) {
             // If he says a really bad word somehow, he just returns an error.
             if(reallyBadWords.some(word => previousResponse.includes(word))) {
                 updateChatbox('', 'user');
-                updateChatbox(`Error: Exception DRBW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
+                updateChatbox(`This error: Exception DRBW0B${date} occurred. Contact Breakout-X to fix the issue.`, 'bot');
                 disableChat(true, true, false);
-                consLog('error', `Error: Exception DRBW0B${date} occurred.`)
+                consLog('error', `This error: Exception DRBW0B${date} occurred.`)
                 // This could only be the user's fault. That's why this one disables.
                 return true;
             }
@@ -240,7 +237,7 @@ function checkForBadWords(message) {
         }
         return false; // You passed the test
     } catch(error) {
-        consLog('log', `Error: ${error} occurred.`)
+        consLog('error', `The error: ${error} occurred.`)
         return true;
     }
 }
@@ -361,8 +358,8 @@ function generateResponse(message) {
             response = 'I am sorry, I didn\'t understand that.';
         }
         // Handles messages
-        previousMessage = message; previousResponse = response;
-        addToHistory(`You sent: ${previousMessage}`,`Orion sent: ${previousResponse}`);
+        //previousMessage = message; previousResponse = response;
+        //addToHistory(`You sent: ${previousMessage}`,`Orion sent: ${previousResponse}`);
     } catch(error) {
         response = `Error: ${error} occurred during message sending.`;
         consLog('error', response);
@@ -371,14 +368,16 @@ function generateResponse(message) {
 }
 
 // Function to update the chatbox
-function updateChatbox(message, sender) {
+window.updateChatbox = function(message, sender) {
     // Send the message
     chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
+    editable.innerText = '';
+    input.value = ''; // Clear the input field
     chatbox.scrollTop = chatbox.scrollHeight;
 }
 
 // Add to history
-function addToHistory(...args) {
+window.addToHistory = function(...args) {
   for (let arg of args) {
     if (arg !== "" && arg !== undefined) {
       conversationHistory.push(arg);
