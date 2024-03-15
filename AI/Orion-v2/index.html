@@ -13,11 +13,41 @@
                 background-color: black;
                 color: white;
             }
+            input {
+                width: 600px;
+                height: 60px;
+                margin: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 2px solid gray;
+                background-color: white;
+                color: black;
+            }
+            #chatbox {
+                height: 500px;
+                margin: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 2px solid black;
+                background-color: darkgray;
+                position: relative;
+                z-index: 1; /* Lower value to keep it behind */
+            }
             .user {
                 color: lightgray;
             }
             .bot {
                 color: white;
+            }
+            .case { /*This is for the floating object that warns you about how it's a wip*/
+                margin: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 2px solid blue;
+                background-color: gray;
+                color: white;
+                position: fixed; /* Required for the z-index to work */
+                z-index: 9999; /* 9999 or any high value should work */
             }
         </style>
     </head>
@@ -26,8 +56,14 @@
             Your browser does not support the HTML5 canvas tag.
         </canvas>
 
-        <h1>Orion has been updated to an improved version</h1>
-        <h3>To test it out <a href="https://breakout-x.github.io/character-ai-test/AI/Orion-v3/">go to this page</a>.</h3>
+        <div class="case" onclick="this.remove()">
+            <h2>>Orion has been updated to an improved version</h2>
+            <p>
+                To try it out <a href="https://breakout-x.github.io/character-ai-test/AI/Orion-v3/">go to this page</a>.
+                <br>
+                Click to dismiss.
+            </p>
+        </div>
         
         <input id="input" type="text" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')" onkeydown="if(event.key==='Enter'){ sendMessage(); }">
         <button onclick="sendMessage()">Send</button>
@@ -35,6 +71,6 @@
         <div id="chatbox"></div>
     </body>
     <!--The scripts only work if linked with the full url-->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test/libraries/filters/badwords.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/libraries/filters/badwords.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Breakout-X/character-ai-test@main/AI/Orion-v2/orion-v2.2.js" onerror="alert('An unknown error occured. Please refresh the page and try again.')"></script>
 </html>
