@@ -129,6 +129,7 @@ window.sendMessage = function() {
                 console.log(`If you can't see it, my response is: "${response}".`);
                 updateChatbox(response, 'orion');
             }, 1000);
+            input.value = '';
         }else{
             console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
         }
@@ -324,6 +325,6 @@ function updateChatbox(message, sender) {
         chatbox.insertAdjacentHTML('beforeend', `<div class="${sender}"></div>`);
         chatbox.lastElementChild.textContent = message;
     }
-    input.value = '';
+    //input.value = '';
     chatbox.scrollTop = chatbox.scrollHeight;
 }
