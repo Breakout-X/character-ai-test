@@ -47,6 +47,9 @@
             #editable {
                 width: 600px;
                 height: 60px;
+                max-width: 600px;
+                max-height: 60px;
+                overflow: auto;
                 margin: 10px;
                 padding: 10px;
                 border-radius: 5px;
@@ -99,7 +102,7 @@
         </div>
     
         <div id="chatbox">
-            <textarea id="editable" width="600px" height="60px" contentEditable="true" onkeydown="if(event.shiftKey && event.key==='Enter'){ event.preventDefault(); sendMessage(); }"></textarea>
+            <div id="editable" contentEditable="true" onkeydown="if(event.shiftKey && event.key==='Enter'){ event.preventDefault(); sendMessage(); }"></div>
             <input type="hidden" id="input" onerror="alert('An error in submitting your request has occurred. Please refresh the page and re-submit this form.')">
             <button class="submitButton" onclick="sendMessage()">Send</button>
         </div>
