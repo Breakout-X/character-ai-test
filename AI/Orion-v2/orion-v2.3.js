@@ -33,12 +33,12 @@ window.sendMessage = function() {
         if(message !== '') {
             if(swearWords.some(word => message.includes(word))) {
                 updateChatbox(input.value, 'user');
-                updateChatbox('Hmm, something went wrong. Shall we move on to a different topic.', 'bot');
+                updateChatbox('Hmm, something went wrong. Shall we move on to a different topic?', 'bot');
                 return;
             }
             if(innapropriateWords.some(word => message.includes(word))) {
                 updateChatbox(input.value, 'user');
-                updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over.', 'bot');
+                updateChatbox('Sorry but I can\'t talk to you about that. Shall we start over?', 'bot');
                 return;
             }
             if(restrictedMode && sensitiveWords.some(word => message.includes(word))) {
@@ -48,7 +48,7 @@ window.sendMessage = function() {
             }
             if(reallyBadWords.some(word => message.includes(word))) {
                 updateChatbox(input.value, 'user');
-                updateChatbox('Hmm, this content is Blocked. It seems you are in direct violation of the TERMS and RULES. You have been suspended from the chat area. If this was an error, please contact Breakout-X.', 'bot');
+                updateChatbox('Hmm, this content is Blocked! It seems you are in direct violation of the TERMS and RULES. You have been suspended from the chat area. If this was an error, please contact Breakout-X.', 'bot');
                 chatDisabled = true;
                 return;
             }
@@ -71,7 +71,7 @@ function generateResponse(message) {
     let response = '';
     if (chatDisabled) {
         let responses = [
-            "Chat is currently disabled due to suspension. Wait a couple minutes before chatting again.",
+            "Chat is currently disabled. Wait a couple minutes before chatting again.",
             "Chat is still disabled. Keep waiting...",
             "Why are you still here?"
         ];
@@ -81,17 +81,24 @@ function generateResponse(message) {
     } else if(message === 'hi' || message === 'hello' || message === 'helo' || message === 'good morning' || message === 'good evening' || message === 'hoi') {
         //picks random between responses
         let responses = [
-            "Hello",
-            "Hi",
-            "Hoi"
+            "Hello!",
+            "Hi!",
+            "Hoi!"
         ];
         let randomIndex = Math.floor(Math.random() * responses.length);
         let randomResponse = responses[randomIndex];
         response = randomResponse;
     } else if(message === 'describe yourself') {
-        response = 'Describing myself in version 2.0 is futile. Try version 3.0 and try this command.';
+        response = `Of course! My name is <strong>Orion the Male Power Rabbit.</strong> <br>
+                Most know me because of my <strong>black fur and white belly fur.</strong> <br>
+                I live currently in the <strong>Endless Forest.</strong> <br>
+                My mate is <strong>Luna the Female Rabbit.</strong> <br>
+                I love <strong>marking my territory and mating with Luna.</strong> <br>
+                I prefer to eat <strong>meat rather than fruit</strong>, and I like <strong>sleeping.</strong> <br>
+                I hate <strong>sudden betrayals.</strong> <br>
+                It's nice to meet you.`;
     } else if(message === 'describe eledlow the fox') {
-        response = 'Describing ELedlow the fox in version 2.0 is futile. Try version 3.0 and try this command.';
+        response = 'I\'m sorry, but I couldn\'t find <strong>relevant info on ELedlow the fox</strong>. My resources seem to be... <strong>cut off...</strong> I do know who he is but my info relevance detector is <strong>no longer avalible</strong>. All I can say is he is a male brown fox who lives in the Endess Forest. Do you have an alternate topic in mind.';
     } else if(message.startsWith('describe my character:')) {
         const characterDetails = message.split(':')[1].split(' ');
         const characterName = characterDetails[0];
@@ -101,15 +108,20 @@ function generateResponse(message) {
         const color2 = characterDetails[10];
         const likes = characterDetails[13];
         const hates = characterDetails[15];
-        response = `Please note that tis is version 2.0, therefore this may not work as intended. Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. ${characterName} likes ${likes} and hates ${hates}. Your character sounds facinating.`;
+        response = `Please note that tis is version 2.0, therefore this <strong>may not work as intended.</strong> Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. ${characterName} likes ${likes} and hates ${hates}. Your character sounds facinating.`;
     } else {
-        response = 'I am sorry, I didn\'t understand that. Try using this command in version 3.0';
+        response = 'I am sorry, I didn\'t understand that. Try saying that in <strong>version 3.0</strong>';
     }
     return response;
 }
 
 function updateChatbox(message, sender) {
-    chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
+    if (sender == 'Ω¡™£¢∞§¶•ªº–πøˆ¨¥†®´∑´∑åß∂ƒ∫√ç≈ß´®†¥¨') {
+        chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
+    } else {
+        chatbox.insertAdjacentHTML('beforeend', `<div class="${sender}"></div>`);
+        chatbox.lastElementChild.textContent = message;
+    }
     input.value = '';
     chatbox.scrollTop = chatbox.scrollHeight;
 }
