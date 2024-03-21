@@ -84,8 +84,8 @@ try {
 window.sendMessage = function() {
     try {
         console.log(`Here we go again...`);
-        chatbox = document.getElementById('chatbox');
-        input = document.getElementById('input');
+        .//chatbox = document.getElementById('chatbox');
+        //input = document.getElementById('input');
         const message = input.value.trim().toLowerCase();
         const originalMessage = input.value;
         
@@ -115,21 +115,18 @@ window.sendMessage = function() {
             let response = generateResponse(message);
             let check = checkMessage(message);
 
-            updateChatbox(response, 'orion');
-            /*
             setTimeout(() => {
                 console.log(`I am once again reading your message...`);
                 if (check) {
                     //If it caught a bad word, the function returns immediatly
-                    console.error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
+                    throw Error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
                     return;
                 }
 
                 console.log(`I am writing my response...`);
-
+                updateChatbox(response, 'orion');
                 console.log(`If you can't see it, my response is: "${response}".`);
-                
-            }, 1000);*/
+            }, 1000);
         }else{
             console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
         }
@@ -171,12 +168,12 @@ window.checkMessage = function(mess) {
     return false;
     } catch(e) {
         console.error(`Oh no, an error occurred: ${e}`);
-        chat.disabled = true;
-        chat.eDisable = true;
+        //chat.disabled = true;
+        //chat.eDisable = true;
         return true;
     }
 }
-
+/*
 window.checkBotMessage = function(botmess) {
     try {
         if (botmess === '') {
@@ -200,7 +197,7 @@ window.checkBotMessage = function(botmess) {
         chat.eDisable = true;
         return true;
     }
-}
+}*/
 
 function generateResponse(message) {
     let response = '';
@@ -322,8 +319,8 @@ function generateResponse(message) {
         }
         return response;
     } catch(e) {
-        //chat.disabled = true;
-        //chat.eDisable = true;
+        chat.disabled = true;
+        chat.eDisable = true;
         response = `An error occurred in my writing utensil for the chat. "${e}"`;
         return response;
     }
