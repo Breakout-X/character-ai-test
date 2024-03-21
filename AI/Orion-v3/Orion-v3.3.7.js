@@ -86,8 +86,8 @@ window.sendMessage = function() {
         console.log(`Here we go again...`);
         chatbox = document.getElementById('chatbox');
         input = document.getElementById('input');
-        var message = input.value.trim().toLowerCase();
-        var originalMessage = input.value;
+        const message = input.value.trim().toLowerCase();
+        const originalMessage = input.value;
         
         if (chat.disabled) {
             if (responseTotal > responseLimit) {
@@ -113,15 +113,15 @@ window.sendMessage = function() {
             console.log(`Your original message was sent successfully as: "${originalMessage}".`);
 
             let response = generateResponse(message);
-            let check = checkMessage(message);
+            //let check = checkMessage(message);
 
             setTimeout(() => {
                 console.log(`I am once again reading your message...`);
-                if (check) {
+                //if (check) {
                     //If it caught a bad word, the function returns immediatly
                     console.error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
                     return;
-                }
+                //}
 
                 console.log(`I am writing my response...`)
                 //response = generateResponse(message);
@@ -129,7 +129,6 @@ window.sendMessage = function() {
                 console.log(`If you can't see it, my response is: "${response}".`);
                 updateChatbox(response, 'orion');
             }, 1000);
-            input.value = '';
         }else{
             console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
         }
@@ -219,6 +218,16 @@ function generateResponse(message) {
                 response = `The chat is disabled. Wait five minutes before chatting again.`;
                 input.disabled = true;
             }
+        } else if(message === 'hi' || message === 'hello' || message === 'helo' || message === 'good morning' || message === 'good evening' || message === 'hoi') {
+        //picks random between responses
+        let responses = [
+            "Hello!",
+            "Hi!",
+            "Hoi!"
+        ];
+        let randomIndex = Math.floor(Math.random() * responses.length);
+        let randomResponse = responses[randomIndex];
+        response = randomResponse;
         } else if (message.startsWith('hi') || message.startsWith('hello') || message.startsWith('helo') || message.startsWith('good morning') || message.startsWith('good evening') || message.startsWith('hoi')) {
             // Picks random between greeting responses
             let responses = [
@@ -288,7 +297,7 @@ function generateResponse(message) {
             let randomResponse = responses[randomIndex];
             response = randomResponse;
         } else if(message.startsWith('describe my character:')) {
-           // Fix this ELedlow
+            // Fix this ELedlow
             const characterDetails = message.split(':')[1].split(' ');
             const characterName = characterDetails[0];
             const gender = characterDetails[3];
@@ -312,8 +321,8 @@ function generateResponse(message) {
         }
         return response;
     } catch(e) {
-        chat.disabled = true;
-        chat.eDisable = true;
+        //chat.disabled = true;
+        //chat.eDisable = true;
         response = `An error occurred in my writing utensil for the chat. "${e}"`;
         return response;
     }
@@ -326,6 +335,6 @@ function updateChatbox(message, sender) {
         chatbox.insertAdjacentHTML('beforeend', `<div class="${sender}"></div>`);
         chatbox.lastElementChild.textContent = message;
     }
-    //input.value = '';
+    input.value = '';
     chatbox.scrollTop = chatbox.scrollHeight;
 }
