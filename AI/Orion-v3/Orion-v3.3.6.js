@@ -112,8 +112,8 @@ window.sendMessage = function() {
             updateChatbox(originalMessage, 'user');
             console.log(`Your original message was sent successfully as: "${originalMessage}".`);
 
-            let response = '';
-            let check //= checkMessage(message);
+            let response = generateResponse(message);
+            let check = checkMessage(message);
 
             setTimeout(() => {
                 console.log(`I am once again reading your message...`);
@@ -124,7 +124,7 @@ window.sendMessage = function() {
                 }
 
                 console.log(`I am writing my response...`)
-                response = generateResponse(message);
+                //response = generateResponse(message);
 
                 console.log(`If you can't see it, my response is: "${response}".`);
                 updateChatbox(response, 'orion');
@@ -138,7 +138,7 @@ window.sendMessage = function() {
         console.error(`There was an error sending your message: "${e}"`);
     }
 }
-/*
+
 window.checkMessage = function(mess) {
     try {
         // Validates filter
@@ -200,7 +200,7 @@ window.checkBotMessage = function(botmess) {
         chat.eDisable = true;
         return true;
     }
-}*/
+}
 
 function generateResponse(message) {
     let response = '';
