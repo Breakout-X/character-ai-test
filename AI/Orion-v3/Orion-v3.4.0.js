@@ -84,7 +84,7 @@ try {
 window.sendMessage = function() {
     try {
         console.log(`Here we go again...`);
-        .//chatbox = document.getElementById('chatbox');
+        //chatbox = document.getElementById('chatbox');
         //input = document.getElementById('input');
         const message = input.value.trim().toLowerCase();
         const originalMessage = input.value;
@@ -102,9 +102,11 @@ window.sendMessage = function() {
             } else {
                 console.log(`The chat is disabled. Wait 5 minutes before chatting again.`);
                 input.disabled = true;
+                /*
                 setTimeout(function() {
                     input.disabled = false;
                 }, 5 * 60 * 1000); // 5 minutes
+                */
             }
         }
         
@@ -119,7 +121,7 @@ window.sendMessage = function() {
                 console.log(`I am once again reading your message...`);
                 if (check) {
                     //If it caught a bad word, the function returns immediatly
-                    throw Error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
+                    throw new Error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
                     return;
                 }
 
@@ -168,12 +170,13 @@ window.checkMessage = function(mess) {
     return false;
     } catch(e) {
         console.error(`Oh no, an error occurred: ${e}`);
+        updateChatbox(`Oh no, an error occurred: ${e}`, 'bot');
         //chat.disabled = true;
         //chat.eDisable = true;
         return true;
     }
 }
-/*
+
 window.checkBotMessage = function(botmess) {
     try {
         if (botmess === '') {
@@ -193,11 +196,12 @@ window.checkBotMessage = function(botmess) {
         return false;
     } catch (e) {
         console.error(`Oh no, an error occurred: ${e}`);
+        updateChatbox(`Oh no, an error occurred: ${e}`, 'bot');
         chat.disabled = true;
         chat.eDisable = true;
         return true;
     }
-}*/
+}
 
 function generateResponse(message) {
     let response = '';
