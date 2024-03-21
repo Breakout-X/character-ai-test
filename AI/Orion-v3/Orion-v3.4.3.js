@@ -51,7 +51,7 @@ Date.prototype.timeNow = function () {
 
 // Better accurate wait
 const delay = ms => new Promise(res => setTimeout(res, ms));
-
+/*
 const waitTest = async () => {
     console.log('Start');
     await delay(1000); // Wait for 1 second
@@ -73,11 +73,12 @@ window.waitTest3 = async function() {
 // waitTest4
 (async () => {
     console.log('Start');
-    if (test) { // replace with true condition
-        await delay(1000); // Wait for 1 second
+    if (true) { // replace with true condition
+        await delay(1000); // Then wait for 1 second
     }
     console.log('End');
 })();
+*/
 
 // Format the date and time
 function formatDateTime(typeofformat = 1) {
@@ -119,6 +120,7 @@ window.sendMessage = async function() {
         const message = input.value.trim().toLowerCase();
         const originalMessage = input.value;
 
+        /*
         if (chat.disabled) {
             if (responseTotal > responseLimit) {
                 console.log(`...`);
@@ -136,30 +138,30 @@ window.sendMessage = async function() {
                 input.disabled = false;
             }
         }
+        */
         
         if(message !== '') {
+            // Send message
             updateChatbox(originalMessage, 'user');
-            console.log(`Your original message was sent successfully as: "${originalMessage}".`);
-
+            console.log(`Your original message was sent to me successfully as: "${originalMessage}".`);
             console.log(`I am now writing my response while checking your message...`);
+            // Generate and check response
             let response = generateResponse(message);
             let check = checkMessage(message);
-
-            await delay(1000);
             if (check) {
-                //If it caught a bad word, the function returns immediatly
                 console.error(`I refused to write my response. The variable "check" should return a boolian input of 'false', not ${check}.<br>(Aka, you said a bad word)`);
                 return;
             }
-
+            await delay(1000);
+            // Send response
             updateChatbox(response, 'orion');
             console.log(`If you can't see it, my response is: "${response}".`);
         }else{
             console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
         }
     } catch (e) {
-        updateChatbox(`There was an error sending your message: "${e}". Please try refreshing the page or resending your message. If the problem persists, contact Breakout-X to fix the issue.`, 'orion');
-        console.error(`There was an error sending your message: "${e}"`);
+        updateChatbox(`There was an error in sending me your message: "${e}". Please try refreshing the page or resending your message. If the problem persists, contact Breakout-X to fix the issue.`, 'orion');
+        console.error(`There was an error in sending me your message: "${e}"`);
     }
 }
 
@@ -324,7 +326,7 @@ function generateResponse(message) {
             let randomResponse = responses[randomIndex];
             response = randomResponse;
         } else if(message.startsWith('describe my character:')) {
-            // Fix this ELedlow
+            // Fix this
             const characterDetails = message.split(':')[1].split(' ');
             const characterName = characterDetails[0];
             const gender = characterDetails[3];
@@ -363,5 +365,5 @@ function updateChatbox(message, sender) {
         chatbox.lastElementChild.textContent = message;
     }
     input.value = '';
-    //chatbox.scrollTop = chatbox.scrollHeight;
+    chatbox.scrollTop = chatbox.scrollHeight;
 }
