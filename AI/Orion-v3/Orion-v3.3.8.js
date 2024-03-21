@@ -113,18 +113,17 @@ window.sendMessage = function() {
             console.log(`Your original message was sent successfully as: "${originalMessage}".`);
 
             let response = generateResponse(message);
-            //let check = checkMessage(message);
+            let check = checkMessage(message);
 
             setTimeout(() => {
                 console.log(`I am once again reading your message...`);
-                //if (check) {
+                if (check) {
                     //If it caught a bad word, the function returns immediatly
                     console.error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
                     return;
-                //}
+                }
 
-                console.log(`I am writing my response...`)
-                //response = generateResponse(message);
+                console.log(`I am writing my response...`);
 
                 console.log(`If you can't see it, my response is: "${response}".`);
                 updateChatbox(response, 'orion');
