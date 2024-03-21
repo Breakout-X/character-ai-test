@@ -49,6 +49,36 @@ Date.prototype.timeNow = function () {
   return `${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`;
 };
 
+// Better accurate wait
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+const waitTest = async () => {
+    console.log('Start');
+    await delay(1000); // Wait for 1 second
+    console.log('End');
+};
+
+async function waitTest2() {
+    console.log('Start');
+    await delay(1000); // Wait for 1 second
+    console.log('End');
+}
+
+window.waitTest3 = async function() {
+    console.log('Start');
+    await delay(1000); // Wait for 1 second
+    console.log('End');
+}
+
+// waitTest4
+(async () => {
+    console.log('Start');
+    if (test) { // replace with true condition
+        await delay(1000); // Wait for 1 second
+    }
+    console.log('End');
+})();
+
 // Format the date and time
 function formatDateTime(typeofformat = 1) {
     const newDate = new Date();
@@ -81,14 +111,14 @@ try {
 }
 
 // Send Message function
-window.sendMessage = function() {
+window.sendMessage = async function() {
     try {
         console.log(`Here we go again...`);
-        //chatbox = document.getElementById('chatbox');
-        //input = document.getElementById('input');
+        chatbox = document.getElementById('chatbox');
+        input = document.getElementById('input');
         const message = input.value.trim().toLowerCase();
         const originalMessage = input.value;
-        
+
         if (chat.disabled) {
             if (responseTotal > responseLimit) {
                 console.log(`...`);
@@ -102,11 +132,8 @@ window.sendMessage = function() {
             } else {
                 console.log(`The chat is disabled. Wait 5 minutes before chatting again.`);
                 input.disabled = true;
-                /*
-                setTimeout(function() {
-                    input.disabled = false;
-                }, 5 * 60 * 1000); // 5 minutes
-                */
+                await delay(5 * 60 * 1000);
+                input.disabled = false;
             }
         }
         
@@ -114,21 +141,19 @@ window.sendMessage = function() {
             updateChatbox(originalMessage, 'user');
             console.log(`Your original message was sent successfully as: "${originalMessage}".`);
 
+            console.log(`I am now writing my response while checking your message...`);
             let response = generateResponse(message);
             let check = checkMessage(message);
 
-            setTimeout(() => {
-                console.log(`I am once again reading your message...`);
-                if (check) {
-                    //If it caught a bad word, the function returns immediatly
-                    throw new Error(`I refused to write my response. The variable "badWords" should return a boolian input of 'false', not ${check}.`);
-                    return;
-                }
+            await delay(1000);
+            if (check) {
+                //If it caught a bad word, the function returns immediatly
+                console.error(`I refused to write my response. The variable "check" should return a boolian input of 'false', not ${check}.<br>(Aka, you said a bad word)`);
+                return;
+            }
 
-                console.log(`I am writing my response...`);
-                updateChatbox(response, 'orion');
-                console.log(`If you can't see it, my response is: "${response}".`);
-            }, 1000);
+            updateChatbox(response, 'orion');
+            console.log(`If you can't see it, my response is: "${response}".`);
         }else{
             console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
         }
