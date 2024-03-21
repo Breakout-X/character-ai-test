@@ -113,7 +113,7 @@ window.sendMessage = function() {
             console.log(`Your original message was sent successfully as: "${originalMessage}".`);
 
             let response = '';
-            let check = checkMessage(message);
+            let check //= checkMessage(message);
 
             setTimeout(() => {
                 console.log(`I am once again reading your message...`);
@@ -138,7 +138,7 @@ window.sendMessage = function() {
         console.error(`There was an error sending your message: "${e}"`);
     }
 }
-
+/*
 window.checkMessage = function(mess) {
     try {
         // Validates filter
@@ -200,7 +200,8 @@ window.checkBotMessage = function(botmess) {
         chat.eDisable = true;
         return true;
     }
-}
+}*/
+
 function generateResponse(message) {
     let response = '';
     try {
