@@ -115,6 +115,8 @@ window.sendMessage = function() {
             let response = generateResponse(message);
             let check = checkMessage(message);
 
+            updateChatbox(response, 'orion');
+            /*
             setTimeout(() => {
                 console.log(`I am once again reading your message...`);
                 if (check) {
@@ -126,8 +128,8 @@ window.sendMessage = function() {
                 console.log(`I am writing my response...`);
 
                 console.log(`If you can't see it, my response is: "${response}".`);
-                updateChatbox(response, 'orion');
-            }, 1000);
+                
+            }, 1000);*/
         }else{
             console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
         }
@@ -335,5 +337,5 @@ function updateChatbox(message, sender) {
         chatbox.lastElementChild.textContent = message;
     }
     input.value = '';
-    chatbox.scrollTop = chatbox.scrollHeight;
+    //chatbox.scrollTop = chatbox.scrollHeight;
 }
