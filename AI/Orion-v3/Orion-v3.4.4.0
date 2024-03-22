@@ -1,0 +1,263 @@
+/*Orion-v3.js
+Orion-v3 is a chatbot based off of the character "Orion the Rabbit" from the Arrow Series.
+His goal is not to just chat, but to also help you program using the mcf language.
+He is meant to be as nice as possible, but at the same time is a little but more Wild than the other chatbots are.
+He can read your cookies, username, and age as that is how he gets enough data to filter things.
+He has his own personality.
+He does have a temper depending on the topic.
+He can't talk about certain subjects to certain users.
+He will be able to generate images soon.
+V3 was remade due to an uncaught annoying bug.
+*/
+
+// Unused
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+// Variables and constants
+var chatbox = document.getElementById('chatbox');
+var input = document.getElementById('input');
+var visualInput = document.getElementById('editable');
+
+// Constant arrays
+const account = {
+    banned: false,
+    email: "",
+    restrictedMode: false,
+    verified: false,
+    username: "Profile-1", 
+    userpfp: ""
+};
+const chat = {
+    disabled: false,
+    eDisable: false,
+    filter: 0,
+    history: [],
+    previousMessage: "",
+    previousResponse: "",
+    responseTotal: 0,
+    responseLimit: 0
+}
+
+if (account.restrictedMode) {
+    chat.filter = 3;
+} else {
+    chat.filter = 2;
+}
+
+// Date and time prototypes
+Date.prototype.today = function () {
+  return `${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()}`;
+};
+
+Date.prototype.timeNow = function () {
+  return `${this.getHours()}:${this.getMinutes()}:${this.getSeconds()}`;
+};
+
+// Better accurate wait
+const delay = ms => new Promise(res => setTimeout(res, ms));
+/*
+const waitTest = async () => {
+    console.log('Start');
+    await delay(1000); // Wait for 1 second
+    console.log('End');
+};
+
+async function waitTest2() {
+    console.log('Start');
+    await delay(1000); // Wait for 1 second
+    console.log('End');
+}
+
+window.waitTest3 = async function() {
+    console.log('Start');
+    await delay(1000); // Wait for 1 second
+    console.log('End');
+}
+
+// waitTest4
+(async () => {
+    console.log('Start');
+    if (true) { // replace with true condition
+        await delay(1000); // Then wait for 1 second
+    }
+    console.log('End');
+})();
+*/
+
+// Format the date and time
+function formatDateTime(typeofformat = 1) {
+    const newDate = new Date();
+    let formattedDateTime = `Invalid format for your date.`;
+    // Checks format
+    if (typeofformat === 1) {
+        formattedDateTime = `${newDate.today()}${newDate.timeNow()}`;
+    }else if (typeofformat === 2) {
+        formattedDateTime = `The current date is: ${newDate.today()}, and the current time is: ${newDate.timeNow()}.`;
+    }
+    return formattedDateTime;
+}
+
+// Make sure required variables are present
+try { 
+    swearWords;
+    innapropriateWords;
+    sensitiveWords;
+    reallyBadWords;
+    allBadWords;
+} catch (e) {
+    console.log(`I could not find the "badwords.js" content, so I am replacing the arrays with empty placeholders.`);
+    updateChatbox('Oops, something went wrong in getting the filters! Please try refreshing the page. If the problem persists, contact Breakout-X to fix the issue.', 'bot');
+    swearWords = [];
+    innapropriateWords = [];
+    sensitiveWords = [];
+    reallyBadWords = [];
+    allBadWords = [];
+}
+
+// Send Message function
+window.sendMessage = function() {
+    try {
+        console.log(`Here we go again...`);
+        const message = input.value.trim().toLowerCase();
+        const originalMessage = input.value;
+        
+        /*
+        if (chat.disabled) {
+            if (responseTotal > responseLimit) {
+                console.log(`...`);
+                input.disabled = true;
+                visualInput.disabled = true;
+            } else if (account.banned) {
+                console.log(`You have been banned. There is nothing you can do now.`);
+                input.disabled = true;
+                visualInput.disabled = true;
+            } else if (chat.eDisable) {
+                console.log(`An error occurred, so the chat is disabled. Try refreshing the page.`);
+                input.disabled = true;
+                visualInput.disabled = true;
+            } else {
+                console.log(`The chat is disabled. Wait 5 minutes before chatting again.`);
+                input.disabled = true;
+                visualInput.disabled = true;
+            }
+        }
+        */
+        
+        if(message !== '') {
+            updateChatbox(originalMessage, 'user');
+            console.log(`Your original message was sent to me successfully as: "${originalMessage}".`);
+            console.log(`I am now writing my response while checking your message...`);
+            
+            // Generate and check response
+            let response = generateResponse(message);
+            let check = '';
+            
+            // Validates filter
+            if (chat.filter < 1) {
+                updateChatbox(`<error> Filter exception`, 'bot');
+                throw new Error(`Exception: The variable 'chat.filter' is set to an invalid value of ${chat.filter}.`);
+            }
+            
+            // Checks for swear words
+            if(swearWords.some(word => message.includes(word))) {
+                check = `... I'm unsure how I can respond to that...`;
+                chat.disabled = true;
+            }
+            
+            // Checks for sex-related innapropriate words.
+            if(chat.filter > 1 && innapropriateWords.some(word => message.includes(word))) {
+                check = `Hmm... Sorry but I can't talk to you about that right now. Shall we try another topic?`;
+            }
+            
+            // Checks for words some would consider offensive
+            if(chat.filter > 2  && restrictedMode && sensitiveWords.some(word => message.includes(word))) {
+                updateChatbox(`<log> Restricted Mode is set to ON.`, 'bot');
+                check = `Hmm, It seems the topic you wish to talk about has content that is blocked in Restricted Mode. Although I, personally have no problem talking about it, I just am not allowed to. If you wish to chat about that, turn off Restricted Mode. Shall we try a different topic?`;
+            }
+
+            // Checks for really bad words, such as racist terms.
+            if(reallyBadWords.some(word => mess.includes(word))) {
+                updateChatbox(`<violation> TERMS violation.`, 'bot')
+                check = `Hmm... It seems you are in direct violation of the TERMS and RULES by using that word. You have been suspended from the chat area. If this was a mistake, please contact Breakout-X.`;
+                chat.disabled = true;
+                account.banned = true;
+            }
+
+            // Then generate response
+            setTimeout(() => {
+                if (check !== '') {
+                    updateChatbox(check, 'orion');
+                    return;
+                }
+                updateChatbox(response, 'bot');
+                onsole.log(`If you can't see it, my response is: "${response}".`);
+                //drawBotImage();
+            }, 1000);
+        }else{
+            console.warn(`You cannot send a message with an empty value. Plus, how would I respond to that?`)
+        }
+    } catch (e) {
+        updateChatbox(`There was an error in sending me your message: "${e}". Please try refreshing the page or resending your message. If the problem persists, contact Breakout-X to fix the issue.`, 'orion');
+        console.error(`There was an error in sending me your message: "${e}"`);
+    }
+}
+
+function generateResponse(message) {
+    let response = '';
+    if (chat.disabled) {
+        let responses = [
+            "Chat is currently disabled. Wait a couple minutes before chatting again.",
+            "Chat is still disabled. Keep waiting...",
+            "Why are you still here?"
+        ];
+        let randomIndex = Math.floor(Math.random() * responses.length);
+        let randomResponse = responses[randomIndex];
+        response = randomResponse;
+    } else if(message === 'hi' || message === 'hello' || message === 'helo' || message === 'good morning' || message === 'good evening' || message === 'hoi') {
+        //picks random between responses
+        let responses = [
+            "Hello!",
+            "Hi!",
+            "Hoi!"
+        ];
+        let randomIndex = Math.floor(Math.random() * responses.length);
+        let randomResponse = responses[randomIndex];
+        response = randomResponse;
+    } else if(message === 'describe yourself') {
+        response = `Of course! My name is <strong>Orion the Male Power Rabbit.</strong> <br>
+                Most know me because of my <strong>black fur and white belly fur.</strong> <br>
+                I live currently in the <strong>Endless Forest.</strong> <br>
+                My mate is <strong>Luna the Female Rabbit.</strong> <br>
+                I love <strong>marking my territory and mating with Luna.</strong> <br>
+                I prefer to eat <strong>meat rather than fruit</strong>, and I like <strong>sleeping.</strong> <br>
+                I hate <strong>sudden betrayals.</strong> <br>
+                It's nice to meet you.`;
+    } else if(message === 'describe eledlow the fox') {
+        response = 'I\'m sorry, but I couldn\'t find <strong>relevant info on ELedlow the fox</strong>. My resources seem to be... <strong>cut off...</strong> I do know who he is but my info relevance detector is <strong>no longer avalible</strong>. All I can say is he is a male brown fox who lives in the Endess Forest. Do you have an alternate topic in mind.';
+    } else if(message.startsWith('describe my character:')) {
+        const characterDetails = message.split(':')[1].split(' ');
+        const characterName = characterDetails[0];
+        const gender = characterDetails[3];
+        const animal = characterDetails[4];
+        const color1 = characterDetails[9];
+        const color2 = characterDetails[10];
+        const likes = characterDetails[13];
+        const hates = characterDetails[15];
+        response = `Please note that tis is version 2.0, therefore this <strong>may not work as intended.</strong> Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. ${characterName} likes ${likes} and hates ${hates}. Your character sounds facinating.`;
+    } else {
+        response = 'I am sorry, I didn\'t understand that. Try saying that in <strong>version 3.0</strong>';
+    }
+    return response;
+}
+
+function updateChatbox(message, sender) {
+    if (sender == 'Ω¡™£¢∞§¶•ªº–πøˆ¨¥†®´∑´∑åß∂ƒ∫√ç≈ß´®†¥¨') {
+        chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
+    } else {
+        chatbox.insertAdjacentHTML('beforeend', `<div class="${sender}"></div>`);
+        chatbox.lastElementChild.textContent = message;
+    }
+    input.value = '';
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
