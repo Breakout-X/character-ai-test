@@ -1,13 +1,5 @@
 /*Orion-v3.js
-Orion-v3 is a chatbot based off of the character "Orion the Rabbit" from the Arrow Series.
-His goal is not to just chat, but to also help you program using the mcf language.
-He is meant to be as nice as possible, but at the same time is a little but more Wild than the other chatbots are.
-He can read your cookies, username, and age as that is how he gets enough data to filter things.
-He has his own personality.
-He does have a temper depending on the topic.
-He can't talk about certain subjects to certain users.
-He will be able to generate images soon.
-V3 was remade due to an uncaught annoying bug.
+Broken v3
 */
 
 // Variables and constants
