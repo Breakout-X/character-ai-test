@@ -124,7 +124,7 @@ window.sendMessage = function() {
         
         /*
         if (chat.disabled) {
-            if (responseTotal > responseLimit) {
+            if (chat.responseTotal > chat.responseLimit) {
                 console.log(`...`);
                 input.disabled = true;
                 visualInput.disabled = true;
@@ -205,54 +205,142 @@ window.sendMessage = function() {
 
 function generateResponse(message) {
     let response = '';
-    if (chat.disabled) {
-        let responses = [
-            "Chat is currently disabled. Wait a couple minutes before chatting again.",
-            "Chat is still disabled. Keep waiting...",
-            "Why are you still here?"
-        ];
-        let randomIndex = Math.floor(Math.random() * responses.length);
-        let randomResponse = responses[randomIndex];
-        response = randomResponse;
-    } else if(message === 'hi' || message === 'hello' || message === 'helo' || message === 'good morning' || message === 'good evening' || message === 'hoi') {
-        //picks random between responses
-        let responses = [
-            "Hello!",
-            "Hi!",
-            "Hoi!"
-        ];
-        let randomIndex = Math.floor(Math.random() * responses.length);
-        let randomResponse = responses[randomIndex];
-        response = randomResponse;
-    } else if(message === 'describe yourself') {
-        response = `Of course! My name is <strong>Orion the Male Power Rabbit.</strong> <br>
+    try {
+        if (chat.disabled) {
+            if (chat.responseTotal > chat.responseLimit) {
+                let responses = [
+                    `You have reached the limit of interaction with me for today. Have a good day.`,
+                    `You have reached your limit of interaction with me today. See you tommorrow.`,
+                    `You have reached the limit of interaction with me today. Bye Bye.`
+                ];
+                let randomIndex = Math.floor(Math.random() * responses.length);
+                let randomResponse = responses[randomIndex];
+                response = randomResponse;
+
+                visualInput.disabled = true;
+                input.disabled = true;
+            } else if (account.banned) {
+                let responses = [
+                    `You have been banned from the chat. Quit talking to me.`,
+                    `You have been suspended from the chat. Stop talking to me.`,
+                    `Stop talking to me. See you never.`
+                ];
+                let randomIndex = Math.floor(Math.random() * responses.length);
+                let randomResponse = responses[randomIndex];
+                response = randomResponse;
+
+                visualInput.disabled = true;
+                input.disabled = true;
+            } else if (chat.eDisable) {
+                response = `An error occurred during the chat. Please refresh the page.`;
+                input.disabled = true;
+            } else {
+                response = `The chat is disabled. Wait five minutes before chatting again.`;
+                input.disabled = true;
+            }
+        } else if (message.startsWith('hi') || message.startsWith('hello') || message.startsWith('helo') || message.startsWith('good morning') || message.startsWith('good evening') || message.startsWith('hoi')) {
+            // Picks random between greeting responses
+            let responses = [
+                "Hello! How are you today?",
+                "Hi. How are you?",
+                "Hello! What would you like to talk about today."
+            ];
+            let randomIndex = Math.floor(Math.random() * responses.length);
+            let randomResponse = responses[randomIndex];
+            response = randomResponse;
+        } else if (message.includes('describe yourself') || message.includes('describe Orion')) {
+            // Picks random between description responses
+            let responses = [
+                `Sure! My name is <strong>Orion the Power Rabbit</strong>. <br>
+                I am known for my <strong>black fur and white belly fur.</strong> <br>
+                I am a male. <br>
+                I currently live in the <strong>Endless Forest.</strong> <br>
+                My mate is <strong>Luna the Female Rabbit</strong>. <br>
+                I like <strong>marking my territory</strong> everywhere I go, <br>
+                and I love <strong>mating with Luna<strong>. <br>
+                I prefer to eat <strong>meat</strong> unlike most rabbit power animals and I like to <strong>sleep</strong> as any power animal does. <br>
+                I prefer <strong>not wearing pants or kind of clothing</strong> in general as I am a rabbit. <br>
+                I hate it when someone I trust <strong>betrays me</strong> after trusting them for a while. <br>
+                It's a pleasure to meet you.`, 
+    
+                `Of course! My name is <strong>Orion the Male Power Rabbit.</strong> <br>
                 Most know me because of my <strong>black fur and white belly fur.</strong> <br>
                 I live currently in the <strong>Endless Forest.</strong> <br>
                 My mate is <strong>Luna the Female Rabbit.</strong> <br>
                 I love <strong>marking my territory and mating with Luna.</strong> <br>
                 I prefer to eat <strong>meat rather than fruit</strong>, and I like <strong>sleeping.</strong> <br>
                 I hate <strong>sudden betrayals.</strong> <br>
-                It's nice to meet you.`;
-    } else if(message === 'describe eledlow the fox') {
-        response = 'I\'m sorry, but I couldn\'t find <strong>relevant info on ELedlow the fox</strong>. My resources seem to be... <strong>cut off...</strong> I do know who he is but my info relevance detector is <strong>no longer avalible</strong>. All I can say is he is a male brown fox who lives in the Endess Forest. Do you have an alternate topic in mind.';
-    } else if(message.startsWith('describe my character:')) {
-        const characterDetails = message.split(':')[1].split(' ');
-        const characterName = characterDetails[0];
-        const gender = characterDetails[3];
-        const animal = characterDetails[4];
-        const color1 = characterDetails[9];
-        const color2 = characterDetails[10];
-        const likes = characterDetails[13];
-        const hates = characterDetails[15];
-        response = `Please note that tis is version 2.0, therefore this <strong>may not work as intended.</strong> Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. ${characterName} likes ${likes} and hates ${hates}. Your character sounds facinating.`;
-    } else {
-        response = 'I am sorry, I didn\'t understand that. Try saying that in <strong>version 3.0</strong>';
+                It's nice to meet you.`, 
+    
+                `Sure! My name is <strong>Orion the Male Power Rabbit.</strong> <br>
+                Most know me for my<strong>dislike of pants</strong> and my <strong>black and white fur. </strong><br>
+                I currently live in the <strong>Endless Forest.</strong> <br>
+                My mate is <strong>Luna the Female Rabbit.</strong> <br>
+                I like <strong>marking my territory</strong> and I love <strong>mating with Luna.</strong> <br>
+                I prefer to eat <strong>meat</strong> and I like to <strong>sleep</strong> as any power animal does. <br>
+                I hate it when other aniamls <strong>betray me</strong> after trusting them for a while. <br>
+                It's a pleasure to meet you.`
+            ];
+            let randomIndex = Math.floor(Math.random() * responses.length);
+            let randomResponse = responses[randomIndex];
+            response = randomResponse;
+        } else if (message.startsWith('describe') && message.includes('eledlow the fox')) {
+            // Picks random to describe ELedlow the fox. (not you ELedlow)
+            responses = [
+                `Sure! ELedlow the fox is a Power Fox known for his brown fur and tan belly fur. 
+                He loves exploring the forest and marking his territory everywhere he goes, 
+                and he loves eating meat. 
+                He doesn't like symmetry as it freaks him out.
+                He is pretty nice and he seems to be living a good fox life.
+                He has no mate currently.
+                He is very skilled at coding in the MCF language.`,
+    
+                `Of course! ELedlow the fox is a brown Power Fox known for his tan belly fur. 
+                He loves exploring the forest and marking his territory everywhere he goes.
+                He loves eating raw meat. 
+                He doesn't seem to like symmetry as it freaks him out. (Good idea to prank him with hahaha)
+                He is pretty nice and he seems to be living a good fox life.
+                He has no mate currently,
+                and he is very skilled at coding in the MCF language.`
+            ];
+            let randomIndex = Math.floor(Math.random() * responses.length);
+            let randomResponse = responses[randomIndex];
+            response = randomResponse;
+        } else if(message.startsWith('describe my character:')) {
+            // Fix this
+            const characterDetails = message.split(':')[1].split(' ');
+            const characterName = characterDetails[0];
+            const gender = characterDetails[3];
+            const animal = characterDetails[4];
+            const color1 = characterDetails[9];
+            const color2 = characterDetails[10];
+            const likes = characterDetails[13];
+            const hates = characterDetails[15];
+            let responses = [
+                // Does not work.
+                `Your character animal, "${characterName}" is a ${gender} ${animal} with ${color1} body and a ${color2} belly. 
+                ${characterName} likes ${likes} and dislikes ${hates}. 
+                Your character sounds facinating.`,
+    
+                `Your ${gender} power animal, "${characterName}" is a ${animal} known for a ${color1} body and a ${color2} belly. 
+                Your character: "${characterName}" likes ${likes} and dislikes ${hates}. 
+                Your character sounds interesting.`
+            ];      
+        } else {
+            response = 'I am sorry, I didn\'t understand that. Can you try rephrasing that?';
+        }
+        return response;
+    } catch(e) {
+        chat.disabled = true;
+        chat.eDisable = true;
+        response = `An error occurred in my writing utensil for the chat. "${e}"`;
+        return response;
     }
-    return response;
 }
 
+
 function updateChatbox(message, sender) {
-    if (sender == 'Ω¡™£¢∞§¶•ªº–πøˆ¨¥†®´∑´∑åß∂ƒ∫√ç≈ß´®†¥¨') {
+    if (sender == 'orion') {
         chatbox.innerHTML += `<div class="${sender}">${message}</div>`;
     } else {
         chatbox.insertAdjacentHTML('beforeend', `<div class="${sender}"></div>`);
